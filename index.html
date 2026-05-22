@@ -1,0 +1,2455 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K-Food Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --purple:       #4D2475;
+  --purple-mid:   #6B35A0;
+  --purple-light: #9B6CC8;
+  --purple-pale:  #EDE6F7;
+  --purple-bg:    #F5F1FB;
+  --white:        #FFFFFF;
+  --bg-outer:     #EEEAF7;
+  --gray-50:      #F8F7FC;
+  --gray-100:     #EEE9F5;
+  --gray-200:     #DDD6EC;
+  --gray-400:     #A899C2;
+  --text:         #1A0F2E;
+  --text-muted:   #7B6BA0;
+  --text-light:   #A899C2;
+  --green:        #22C55E;
+  --red:          #EF4444;
+  --yellow:       #F59E0B;
+}
+
+body {
+  font-family: 'Pretendard', -apple-system, sans-serif;
+  background: var(--bg-outer);
+  height: 100vh;
+  overflow: hidden;
+  letter-spacing: 0.02em;
+}
+
+/* ══════════════════════════════
+   APP SHELL
+══════════════════════════════ */
+.app {
+  background: var(--white);
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ══════════════════════════════
+   SIDEBAR
+══════════════════════════════ */
+.sidebar {
+  width: 210px;
+  flex-shrink: 0;
+  background: var(--white);
+  border-right: 1.5px solid var(--gray-100);
+  padding: 28px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 24px;
+  cursor: pointer;
+}
+.logo-mark {
+  width: 32px; height: 32px;
+  background: var(--purple);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.logo-text {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.sidebar-section { display: flex; flex-direction: column; gap: 2px; padding: 0 12px; }
+.sidebar-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-light);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0 12px;
+  margin-bottom: 6px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: all 0.16s;
+  user-select: none;
+}
+.nav-item:hover { background: var(--purple-bg); color: var(--purple); }
+.nav-item.active { background: var(--purple); color: #fff; font-weight: 600; }
+.nav-item .nav-icon { font-size: 17px; width: 20px; text-align: center; flex-shrink: 0; }
+
+.sidebar-footer { margin-top: auto; padding: 0 12px; }
+
+/* ══════════════════════════════
+   MAIN AREA
+══════════════════════════════ */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  height: 66px;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1.5px solid var(--gray-100);
+  flex-shrink: 0;
+}
+.search-wrap {
+  flex: 1;
+  max-width: 320px;
+  position: relative;
+}
+.search-wrap input {
+  width: 100%;
+  background: var(--gray-50);
+  border: 1.5px solid var(--gray-100);
+  border-radius: 10px;
+  padding: 9px 14px 9px 36px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+  letter-spacing: 0.02em;
+}
+.search-wrap input::placeholder { color: var(--text-light); }
+.search-wrap input:focus { border-color: var(--purple-light); }
+.search-wrap .search-icon {
+  position: absolute;
+  left: 11px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: var(--text-light);
+}
+.topbar-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.icon-btn {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--gray-50);
+  border: 1.5px solid var(--gray-100);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 17px;
+  transition: all 0.16s;
+}
+.icon-btn:hover { background: var(--purple-bg); border-color: var(--purple-light); }
+.update-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--purple);
+  color: #fff;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  letter-spacing: 0.04em;
+  transition: opacity 0.16s;
+}
+.update-btn:hover { opacity: 0.88; }
+.updated-tag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+.live-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* ── CONTENT BODY ── */
+.content-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── CENTER PANEL ── */
+.center-panel {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.center-panel::-webkit-scrollbar { width: 4px; }
+.center-panel::-webkit-scrollbar-track { background: transparent; }
+.center-panel::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 4px; }
+
+/* ── RIGHT PANEL ── */
+.right-panel {
+  width: 268px;
+  flex-shrink: 0;
+  border-left: 1.5px solid var(--gray-100);
+  overflow-y: auto;
+  padding: 24px 20px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: var(--gray-50);
+}
+.right-panel::-webkit-scrollbar { width: 4px; }
+.right-panel::-webkit-scrollbar-track { background: transparent; }
+.right-panel::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 4px; }
+
+/* ══════════════════════════════
+   HERO BANNER
+══════════════════════════════ */
+.hero-banner {
+  background: linear-gradient(135deg, var(--purple) 0%, #7040AA 60%, #9B6CC8 100%);
+  border-radius: 18px;
+  padding: 28px 32px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-banner::before {
+  content: '';
+  position: absolute;
+  right: -30px; top: -40px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+.hero-banner::after {
+  content: '';
+  position: absolute;
+  right: 60px; bottom: -60px;
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.hero-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.hero-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  max-width: 380px;
+  margin-bottom: 20px;
+}
+.hero-title span { color: rgba(255,255,255,0.7); }
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  color: var(--purple);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 9px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: opacity 0.16s;
+  border: none;
+  font-family: inherit;
+  position: relative; z-index: 1;
+}
+.hero-cta:hover { opacity: 0.9; }
+.hero-cta-arrow {
+  width: 22px; height: 22px;
+  background: var(--purple);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 14px;
+}
+
+/* ══════════════════════════════
+   QUICK STATS ROW
+══════════════════════════════ */
+.quick-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.qstat {
+  background: var(--white);
+  border: 1.5px solid var(--gray-100);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: box-shadow 0.2s;
+}
+.qstat:hover { box-shadow: 0 2px 16px rgba(77,36,117,0.08); }
+.qstat-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: var(--purple-bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.qstat-info {}
+.qstat-val { font-size: 22px; font-weight: 700; color: var(--text); line-height: 1; }
+.qstat-lbl { font-size: 13px; color: var(--text-muted); margin-top: 3px; letter-spacing: 0.02em; }
+
+/* ══════════════════════════════
+   SECTION HEADER
+══════════════════════════════ */
+.sec-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.sec-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.01em;
+}
+.sec-link {
+  font-size: 14px;
+  color: var(--purple);
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+}
+
+/* ══════════════════════════════
+   RANKING TABLE
+══════════════════════════════ */
+.rank-table {
+  background: var(--white);
+  border: 1.5px solid var(--gray-100);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.rank-thead {
+  display: grid;
+  grid-template-columns: 36px 1fr 100px 60px 48px;
+  padding: 10px 18px;
+  background: var(--gray-50);
+  border-bottom: 1.5px solid var(--gray-100);
+}
+.rank-thead span {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.rank-row {
+  display: grid;
+  grid-template-columns: 36px 1fr 100px 60px 48px;
+  align-items: center;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--gray-50);
+  transition: background 0.14s;
+}
+.rank-row:last-child { border-bottom: none; }
+.rank-row:hover { background: var(--gray-50); }
+.rank-num {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-light);
+}
+.rank-num.top3 { color: var(--purple); }
+.rank-food-name { font-size: 15px; font-weight: 600; color: var(--text); }
+.rank-food-ko   { font-size: 13px; color: var(--text-muted); margin-top: 1px; }
+.rank-bar-wrap { padding-right: 16px; }
+.rank-bar {
+  height: 6px; background: var(--gray-100);
+  border-radius: 3px; overflow: hidden;
+}
+.rank-bar-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--purple), var(--purple-light));
+  border-radius: 3px;
+  transition: width 0.9s ease;
+}
+.rank-score { font-size: 15px; font-weight: 700; color: var(--text); text-align: right; }
+.rank-change { font-size: 14px; font-weight: 700; text-align: right; }
+.rank-change.up   { color: var(--green); }
+.rank-change.down { color: var(--red); }
+.rank-change.same { color: var(--text-light); }
+
+/* ══════════════════════════════
+   PLATFORM PILLS (inline)
+══════════════════════════════ */
+.pill {
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-right: 3px;
+}
+.pill-tiktok    { background: #F0F0F0; color: #333; }
+.pill-instagram { background: #FCEDF5; color: #BF1A6E; }
+.pill-reddit    { background: #FEF0EB; color: #D4430F; }
+.pill-twitter   { background: #EBF5FE; color: #0277BD; }
+.pill-youtube   { background: #FEE2E2; color: #B91C1C; }
+
+/* ══════════════════════════════
+   PLATFORM TABS + CARDS
+══════════════════════════════ */
+.platform-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.ptab {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid var(--gray-200);
+  background: var(--white);
+  color: var(--text-muted);
+  font-family: inherit;
+  letter-spacing: 0.02em;
+  transition: all 0.16s;
+}
+.ptab:hover { border-color: var(--purple-light); color: var(--purple); }
+.ptab.active { background: var(--purple); border-color: var(--purple); color: #fff; }
+
+.platform-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.platform-grid.single { grid-template-columns: 1fr; }
+#platform-youtube { grid-column: 1 / -1; }
+.platform-card {
+  background: var(--white);
+  border: 1.5px solid var(--gray-100);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: box-shadow 0.2s;
+}
+.platform-card:hover { box-shadow: 0 4px 20px rgba(77,36,117,0.07); }
+.pc-header { display: flex; align-items: center; gap: 12px; }
+.pc-icon {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.pc-icon.tiktok    { background: #F0F0F0; }
+.pc-icon.instagram { background: #FCEDF5; }
+.pc-icon.reddit    { background: #FEF0EB; }
+.pc-icon.twitter   { background: #EBF5FE; }
+.pc-icon.youtube   { background: #FEE2E2; }
+.pc-name  { font-size: 16px; font-weight: 700; color: var(--text); }
+.pc-count { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+.pc-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.pc-tag {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1.5px solid var(--gray-200);
+  background: var(--gray-50);
+  color: var(--text-muted);
+}
+.pc-tag strong { color: var(--purple); font-weight: 600; }
+.pc-tag em { font-style: normal; color: var(--text-light); font-size: 11px; margin-left: 2px; }
+
+.pc-insights { display: flex; flex-direction: column; gap: 6px; }
+.pc-insight {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.55;
+  padding: 9px 12px;
+  background: var(--purple-bg);
+  border-radius: 8px;
+  border-left: 3px solid var(--purple);
+  display: flex; gap: 8px;
+  letter-spacing: 0.01em;
+}
+.pc-insight::before { content: '→'; color: var(--purple); font-weight: 700; flex-shrink: 0; }
+
+.pc-viral {
+  background: var(--gray-50);
+  border: 1.5px solid var(--gray-100);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.pc-viral-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+.pc-viral-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.pc-viral-stat { font-size: 13px; color: var(--text-muted); }
+.pc-viral-link {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--purple);
+  text-decoration: none;
+  border: 1.5px solid var(--purple);
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  transition: all 0.16s;
+}
+.pc-viral-link:hover { background: var(--purple); color: #fff; }
+.pc-viral-why {
+  font-size: 13px; color: var(--text-muted);
+  margin-top: 6px; line-height: 1.5;
+  padding-left: 9px; border-left: 2px solid var(--purple-pale);
+}
+.pc-src-tag {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 12px; color: var(--purple-mid); font-weight: 600;
+  background: var(--purple-pale); border-radius: 4px;
+  padding: 2px 8px; margin-top: 5px; text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.pc-src-tag:hover { background: var(--purple-light); color: #fff; }
+.pc-header-src {
+  margin-left: auto;
+  font-size: 12px; font-weight: 600; color: var(--purple-mid);
+  text-decoration: none; padding: 3px 9px;
+  border: 1.5px solid var(--purple-pale); border-radius: 20px;
+  white-space: nowrap; transition: all 0.15s;
+}
+.pc-header-src:hover { background: var(--purple); color: #fff; border-color: var(--purple); }
+.pc-tag a { color: inherit; text-decoration: none; }
+.pc-tag a:hover strong { color: var(--purple-mid); }
+
+/* ── 실시간 리포트 섹션 ── */
+.rt-banner {
+  background: linear-gradient(135deg, var(--purple) 0%, var(--purple-mid) 100%);
+  border-radius: 14px; padding: 20px 24px;
+  color: #fff; display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; margin-bottom: 2px;
+}
+.rt-banner-title { font-size: 18px; font-weight: 800; letter-spacing: -0.01em; }
+.rt-banner-sub   { font-size: 13px; opacity: 0.75; margin-top: 4px; }
+.rt-badge { font-size: 12px; font-weight: 700; background: rgba(255,255,255,0.18); border-radius: 20px; padding: 4px 12px; white-space: nowrap; }
+
+/* 바이럴 TikTok 테이블 */
+.vt-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.vt-table th { font-size: 12px; font-weight: 700; color: var(--text-light); letter-spacing:.1em; text-transform:uppercase; padding: 8px 12px; border-bottom: 1.5px solid var(--gray-200); text-align:left; background: var(--gray-50); }
+.vt-table td { padding: 11px 12px; border-bottom: 1px solid var(--gray-100); vertical-align: top; }
+.vt-table tr:last-child td { border-bottom: none; }
+.vt-table tr:hover td { background: var(--purple-bg); }
+.vt-rank { font-size: 15px; font-weight: 800; color: var(--purple); width: 28px; text-align: center; }
+.vt-title { font-weight: 600; color: var(--text); }
+.vt-title a { color: var(--text); text-decoration: none; }
+.vt-title a:hover { color: var(--purple-mid); text-decoration: underline; }
+.vt-creator { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+.vt-note { font-size: 13px; color: var(--text-muted); margin-top: 4px; padding-left: 8px; border-left: 2px solid var(--purple-pale); }
+.vt-metric { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; }
+.vt-metric span { color: var(--text-muted); font-weight: 400; }
+.vt-food-badge { display: inline-block; font-size: 12px; font-weight: 700; color: var(--purple); background: var(--purple-pale); border-radius: 4px; padding: 2px 7px; }
+
+/* 핫푸드 카드 */
+.hot-food-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.hf-card {
+  background: var(--white); border: 1.5px solid var(--gray-100);
+  border-radius: 12px; padding: 14px 16px;
+  transition: box-shadow 0.16s;
+}
+.hf-card:hover { box-shadow: 0 4px 16px rgba(77,36,117,0.08); }
+.hf-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.hf-name { font-size: 17px; font-weight: 800; color: var(--text); }
+.hf-name-en { font-size: 13px; color: var(--text-muted); margin-top: 1px; }
+.hf-platforms { display: flex; gap: 4px; flex-wrap: wrap; }
+.hf-pill { font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 20px; color: #fff; }
+.hf-pill.TikTok    { background: #010101; }
+.hf-pill.Instagram { background: #E1306C; }
+.hf-pill.Reddit    { background: #FF4500; }
+.hf-highlight { font-size: 13px; font-weight: 600; color: var(--purple-mid); margin-bottom: 6px; }
+.hf-highlight a { color: inherit; text-decoration: none; }
+.hf-highlight a:hover { text-decoration: underline; }
+.hf-insight { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+/* 지역별 */
+.geo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.geo-card {
+  background: var(--gray-50); border: 1.5px solid var(--gray-100);
+  border-radius: 10px; padding: 12px 14px;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.geo-flag { font-size: 24px; flex-shrink: 0; }
+.geo-country { font-size: 15px; font-weight: 700; color: var(--text); }
+.geo-cities { font-size: 12px; color: var(--text-light); margin-top: 1px; }
+.geo-trend { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.4; }
+
+/* 외국인 궁금증 */
+.fq-list { display: flex; flex-direction: column; gap: 8px; }
+.fq-item {
+  background: var(--white); border: 1.5px solid var(--gray-100);
+  border-radius: 10px; padding: 12px 16px;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.fq-q { font-size: 15px; font-weight: 600; color: var(--text); flex: 1; }
+.fq-q::before { content: '"'; color: var(--purple-light); }
+.fq-q::after  { content: '"'; color: var(--purple-light); }
+.fq-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 5px; align-items: center; }
+.fq-src { font-size: 12px; color: var(--text-muted); }
+.fq-src a { color: var(--purple-mid); text-decoration: none; font-weight: 600; }
+.fq-src a:hover { text-decoration: underline; }
+.fq-replies { font-size: 12px; color: var(--text-light); }
+.fq-opp { flex-shrink: 0; font-size: 12px; font-weight: 700; color: var(--purple); background: var(--purple-pale); border-radius: 4px; padding: 3px 9px; white-space: nowrap; }
+
+/* 시장 데이터 */
+.market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.mkt-card {
+  background: var(--white); border: 1.5px solid var(--gray-100);
+  border-radius: 12px; padding: 16px 18px;
+}
+.mkt-val { font-size: 28px; font-weight: 800; color: var(--purple); letter-spacing: -0.02em; }
+.mkt-stat { font-size: 14px; font-weight: 700; color: var(--text); margin-top: 4px; }
+.mkt-detail { font-size: 13px; color: var(--text-muted); margin-top: 3px; line-height: 1.4; }
+.mkt-src { margin-top: 8px; }
+.mkt-src a { font-size: 12px; color: var(--purple-mid); font-weight: 600; text-decoration: none; }
+.mkt-src a:hover { text-decoration: underline; }
+
+/* 진입 장벽 */
+.barrier-list { display: flex; flex-direction: column; gap: 8px; }
+.barrier-item {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; background: var(--white);
+  border: 1.5px solid var(--gray-100); border-radius: 10px;
+  padding: 12px 16px; align-items: center;
+}
+.barrier-prob { font-size: 14px; font-weight: 600; color: var(--red); }
+.barrier-prob::before { content: '⚠ '; }
+.barrier-sol { font-size: 13px; color: var(--text-muted); }
+.barrier-sol::before { content: '💡 '; }
+@media (max-width: 700px) { .barrier-item { grid-template-columns: 1fr; } }
+
+/* ── 레퍼런스 테이블 ── */
+.ref-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.ref-table th {
+  font-size: 12px; font-weight: 700; color: var(--text-light);
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 8px 12px; border-bottom: 1.5px solid var(--gray-200);
+  text-align: left; background: var(--gray-50);
+}
+.ref-table td { padding: 10px 12px; border-bottom: 1px solid var(--gray-100); vertical-align: top; }
+.ref-table tr:last-child td { border-bottom: none; }
+.ref-table tr:hover td { background: var(--purple-bg); }
+.ref-ttl { font-weight: 600; color: var(--text); }
+.ref-ttl a { color: var(--text); text-decoration: none; }
+.ref-ttl a:hover { color: var(--purple-mid); text-decoration: underline; }
+.ref-creator { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+.ref-pill {
+  display: inline-block; font-size: 12px; font-weight: 700;
+  padding: 2px 8px; border-radius: 20px; color: #fff; white-space: nowrap;
+}
+.ref-pill.tiktok    { background: #010101; }
+.ref-pill.instagram { background: #E1306C; }
+.ref-pill.reddit    { background: #FF4500; }
+.ref-pill.twitter   { background: #1DA1F2; }
+.ref-pill.youtube   { background: #FF0000; }
+.ref-metrics { font-size: 13px; color: var(--text-muted); white-space: nowrap; }
+.ref-food { font-size: 13px; color: var(--purple-mid); font-weight: 600; }
+.ref-type { font-size: 13px; color: var(--text-light); white-space: nowrap; }
+
+/* ══════════════════════════════
+   RIGHT PANEL WIDGETS
+══════════════════════════════ */
+.widget {
+  background: var(--white);
+  border: 1.5px solid var(--gray-100);
+  border-radius: 16px;
+  padding: 18px;
+}
+.widget-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 14px;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.widget-title span {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
+
+/* 도넛 차트 영역 */
+.donut-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.donut-svg { width: 100px; height: 100px; }
+.donut-track { fill: none; stroke: var(--gray-100); stroke-width: 10; }
+.donut-fill  { fill: none; stroke: var(--purple); stroke-width: 10; stroke-linecap: round;
+               stroke-dasharray: 283; stroke-dashoffset: 283;
+               transition: stroke-dashoffset 1.2s ease;
+               transform: rotate(-90deg); transform-origin: 50% 50%; }
+.donut-label { font-size: 20px; font-weight: 800; fill: var(--text); font-family: 'Pretendard', sans-serif; }
+.donut-sub   { font-size: 11px; fill: var(--text-muted); font-family: 'Pretendard', sans-serif; }
+.donut-legend {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.legend-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* 크레딧 바 */
+.credit-bar-wrap { margin-bottom: 4px; }
+.credit-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 7px;
+  letter-spacing: 0.02em;
+}
+.credit-bar-labels strong { color: var(--text); font-weight: 700; }
+.credit-bar {
+  height: 7px;
+  background: var(--gray-100);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.credit-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--purple), var(--purple-light));
+  border-radius: 4px;
+  transition: width 1.2s ease;
+}
+.credit-note {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 7px;
+  letter-spacing: 0.02em;
+}
+
+/* 감성 분석 */
+.sentiment-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--gray-50);
+}
+.sentiment-row:last-child { border-bottom: none; }
+.s-region { font-size: 13px; font-weight: 600; color: var(--text); width: 90px; flex-shrink: 0; }
+.s-bars { flex: 1; height: 6px; display: flex; border-radius: 3px; overflow: hidden; gap: 2px; }
+.s-pos { background: var(--green); }
+.s-neu { background: var(--yellow); }
+.s-neg { background: var(--red); }
+.s-pct { font-size: 12px; color: var(--green); font-weight: 700; width: 28px; text-align: right; flex-shrink: 0; }
+
+/* 플랫폼 mini stat */
+.mini-stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--gray-50);
+}
+.mini-stat-row:last-child { border-bottom: none; }
+.mini-stat-left { display: flex; align-items: center; gap: 9px; }
+.mini-icon {
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.mini-icon.tiktok    { background: #F0F0F0; }
+.mini-icon.instagram { background: #FCEDF5; }
+.mini-icon.reddit    { background: #FEF0EB; }
+.mini-icon.twitter   { background: #EBF5FE; }
+.mini-icon.youtube   { background: #FEE2E2; }
+.mini-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.mini-count { font-size: 12px; color: var(--text-muted); }
+.mini-stat-val { font-size: 15px; font-weight: 700; color: var(--text); }
+
+/* ══════════════════════════════
+   PAGE VISIBILITY
+══════════════════════════════ */
+.page { display: none; }
+.page.active { display: contents; }
+.page-block { display: none; }
+.page-block.active { display: flex; flex-direction: column; gap: 24px; }
+
+/* ══════════════════════════════
+   COMING SOON
+══════════════════════════════ */
+.coming-soon {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 80px 20px;
+  text-align: center;
+}
+.coming-soon .cs-icon { font-size: 52px; opacity: 0.2; }
+.coming-soon h3 { font-size: 20px; font-weight: 700; color: var(--text); opacity: 0.45; letter-spacing: 0.01em; }
+.coming-soon p  { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+.phase-badge {
+  background: var(--purple);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.1em;
+}
+
+/* ══════════════════════════════
+   PHASE 2 — 콘텐츠 기획
+══════════════════════════════ */
+.content-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.cstat {
+  background: var(--white);
+  border: 1.5px solid var(--gray-100);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.cstat-icon {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.cstat-icon.total { background: var(--purple-pale); }
+.cstat-icon.done  { background: #DCFCE7; }
+.cstat-icon.prog  { background: #FEF3C7; }
+.cstat-icon.todo  { background: var(--gray-100); }
+.cstat-val { font-size: 28px; font-weight: 800; color: var(--text); line-height: 1; }
+.cstat-lbl { font-size: 14px; color: var(--text-muted); margin-top: 3px; }
+
+/* 주제 카드 그리드 */
+.topic-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.topic-card {
+  background: var(--white);
+  border: 1.5px solid var(--gray-100);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: border-color .2s, box-shadow .2s;
+  cursor: default;
+}
+.topic-card:hover {
+  border-color: var(--purple-light);
+  box-shadow: 0 4px 20px rgba(77,36,117,.08);
+}
+.topic-card.priority-high   { border-left: 4px solid var(--purple); }
+.topic-card.priority-medium { border-left: 4px solid var(--yellow); }
+
+.tc-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.tc-badges { display: flex; flex-direction: column; gap: 5px; flex-shrink: 0; align-items: flex-end; }
+.tc-badge {
+  font-size: 12px; font-weight: 700;
+  padding: 3px 9px; border-radius: 20px; letter-spacing: .04em; white-space: nowrap;
+}
+.tc-badge.src-tiktok    { background: #F0F0F0; color: #333; }
+.tc-badge.src-instagram { background: #FCEDF5; color: #B0004A; }
+.tc-badge.src-reddit    { background: #FEF0EB; color: #B84A00; }
+.tc-badge.src-twitter   { background: #EBF5FE; color: #005FA3; }
+.tc-badge.src-youtube   { background: #FEE2E2; color: #B91C1C; }
+.tc-badge.pri-high      { background: var(--purple-pale); color: var(--purple); }
+.tc-badge.pri-medium    { background: #FEF3C7; color: #92400E; }
+
+.tc-title-en { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.45; }
+.tc-title-ko { font-size: 14px; color: var(--text-muted); margin-top: 3px; }
+.tc-source   { font-size: 13px; color: var(--purple); font-weight: 600; margin-top: 6px; }
+
+/* 채널 트래커 */
+.tc-channels { display: flex; gap: 8px; }
+.tc-ch { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.tc-ch-dot {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.tc-ch-dot.done        { background: #DCFCE7; }
+.tc-ch-dot.in_progress { background: #FEF3C7; }
+.tc-ch-dot.todo        { background: var(--gray-100); opacity: .55; }
+.tc-ch-label { font-size: 11px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: .05em; }
+.tc-ch-status { font-size: 11px; font-weight: 700; }
+.tc-ch-status.done        { color: var(--green); }
+.tc-ch-status.in_progress { color: var(--yellow); }
+.tc-ch-status.todo        { color: var(--text-light); }
+
+/* 해시태그 */
+.tc-hashtags { display: flex; flex-wrap: wrap; gap: 5px; }
+.tc-hash {
+  font-size: 13px; color: var(--purple-mid);
+  background: var(--purple-bg); padding: 3px 8px;
+  border-radius: 6px; font-weight: 500;
+}
+
+/* 메모 */
+.tc-memo {
+  font-size: 14px; color: var(--text-muted); line-height: 1.65;
+  padding: 10px 13px; background: var(--gray-50);
+  border-radius: 8px; border-left: 3px solid var(--purple-pale);
+}
+
+/* 주간 캘린더 */
+.cal-wrap {
+  background: var(--white);
+  border: 1.5px solid var(--gray-100);
+  border-radius: 16px;
+  padding: 20px;
+}
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+.cal-day { display: flex; flex-direction: column; gap: 6px; }
+.cal-day-head { text-align: center; padding-bottom: 8px; border-bottom: 1.5px solid var(--gray-100); }
+.cal-day-label { font-size: 12px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: .08em; }
+.cal-day-num { font-size: 20px; font-weight: 800; color: var(--text); margin-top: 3px; }
+.cal-day-num.today { color: var(--purple); }
+.cal-item {
+  padding: 7px 9px; border-radius: 8px;
+  font-size: 13px; font-weight: 600; line-height: 1.4;
+  background: var(--purple-bg); color: var(--purple);
+  border-left: 3px solid var(--purple-light);
+}
+.cal-item.ch-youtube   { background: #FEE2E2; color: #B91C1C; border-color: #F87171; }
+.cal-item.ch-tiktok    { background: #F0F0F0; color: #333; border-color: #AAAAAA; }
+.cal-item.ch-instagram { background: #FCEDF5; color: #B0004A; border-color: #F472B6; }
+.cal-item.ch-blog      { background: #EBF5FE; color: #005FA3; border-color: #60A5FA; }
+.cal-item.ch-twitter   { background: #DBEAFE; color: #1D4ED8; border-color: #93C5FD; }
+.cal-empty { font-size: 14px; color: var(--text-light); text-align: center; padding: 10px 0; opacity: .6; }
+
+/* ══════════════════════════════
+   PHASE 3 — 촬영 기록 아카이브
+══════════════════════════════ */
+.archive-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.atab {
+  padding: 7px 16px; border-radius: 20px;
+  border: 1.5px solid var(--gray-100);
+  font-size: 14px; font-weight: 700; color: var(--text-muted);
+  cursor: pointer; background: var(--white); transition: all .15s;
+}
+.atab:hover { border-color: var(--purple-light); color: var(--purple); }
+.atab.active { background: var(--purple); color: #fff; border-color: var(--purple); }
+
+.archive-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.archive-card {
+  background: var(--white);
+  border: 1.5px solid var(--gray-100);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex; flex-direction: column; gap: 12px;
+  transition: border-color .2s, box-shadow .2s;
+}
+.archive-card:hover {
+  border-color: var(--purple-light);
+  box-shadow: 0 4px 20px rgba(77,36,117,.08);
+}
+.ac-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.ac-name { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.4; }
+.ac-name-en { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+.ac-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 5px; }
+.ac-date { font-size: 13px; color: var(--text-muted); }
+.ac-loc {
+  font-size: 13px; color: var(--purple); font-weight: 600;
+  background: var(--purple-bg); padding: 2px 8px; border-radius: 6px;
+}
+.ac-status {
+  font-size: 12px; font-weight: 700; padding: 4px 10px;
+  border-radius: 20px; flex-shrink: 0; white-space: nowrap;
+}
+.ac-status.done     { background: #DCFCE7; color: #15803D; }
+.ac-status.editing  { background: #FEF3C7; color: #92400E; }
+.ac-status.unedited { background: var(--gray-100); color: var(--text-muted); }
+
+.ac-foods { display: flex; flex-wrap: wrap; gap: 5px; }
+.ac-food {
+  font-size: 13px; font-weight: 600;
+  background: var(--gray-50); color: var(--text);
+  padding: 3px 8px; border-radius: 6px; border: 1px solid var(--gray-100);
+}
+.ac-linked {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 600; color: var(--purple);
+  background: var(--purple-bg); padding: 8px 12px; border-radius: 8px;
+}
+.ac-linked.none { color: var(--text-muted); background: var(--gray-50); }
+.ac-footer { display: flex; justify-content: space-between; align-items: center; }
+.ac-team { display: flex; gap: 4px; }
+.ac-member {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--purple-pale); color: var(--purple);
+  font-size: 13px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.ac-cat {
+  font-size: 12px; font-weight: 700; color: var(--text-light);
+  background: var(--gray-100); padding: 3px 9px; border-radius: 10px;
+}
+.ac-memo {
+  font-size: 13px; color: var(--text-muted); line-height: 1.65;
+  padding: 9px 12px; background: var(--gray-50);
+  border-radius: 8px; border-left: 3px solid var(--gray-200);
+}
+.archive-empty {
+  grid-column: 1 / -1;
+  text-align: center; padding: 60px;
+  font-size: 15px; color: var(--text-muted);
+}
+
+/* ══════════════════════════════
+   MODAL & FORM
+══════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(26,15,46,.6);
+  z-index: 999;
+  display: none; align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--white); border-radius: 20px;
+  width: 620px; max-width: calc(100vw - 32px);
+  max-height: 90vh;
+  display: flex; flex-direction: column;
+  box-shadow: 0 24px 64px rgba(0,0,0,.22);
+  animation: modalIn .2s ease;
+}
+@keyframes modalIn { from { transform: translateY(16px); opacity: 0; } to { transform: none; opacity: 1; } }
+.modal-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 24px; border-bottom: 1.5px solid var(--gray-100); flex-shrink: 0;
+}
+.modal-title { font-size: 17px; font-weight: 800; color: var(--text); }
+.modal-close {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--gray-100); border: none; cursor: pointer;
+  font-size: 17px; color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s;
+}
+.modal-close:hover { background: var(--purple-pale); color: var(--purple); }
+.modal-body {
+  padding: 22px 24px; overflow-y: auto; flex: 1;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.modal-foot {
+  padding: 16px 24px; border-top: 1.5px solid var(--gray-100);
+  display: flex; gap: 10px; justify-content: flex-end; flex-shrink: 0;
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-label {
+  font-size: 12px; font-weight: 700; color: var(--text-light);
+  letter-spacing: .08em; text-transform: uppercase;
+}
+.form-input, .form-select, .form-textarea {
+  padding: 10px 12px; border: 1.5px solid var(--gray-200);
+  border-radius: 10px; font-family: inherit; font-size: 15px; color: var(--text);
+  background: var(--white); outline: none; transition: border-color .15s; width: 100%;
+  letter-spacing: 0.01em;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--purple-light);
+  box-shadow: 0 0 0 3px rgba(155,108,200,.1);
+}
+.form-textarea { resize: vertical; min-height: 76px; line-height: 1.65; }
+.form-section-label {
+  font-size: 12px; font-weight: 700; color: var(--text-light);
+  letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px;
+}
+.ch-status-row { display: flex; gap: 8px; }
+.ch-status-cell {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 5px; text-align: center;
+}
+.ch-s-icon { font-size: 20px; }
+.ch-s-lbl { font-size: 11px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: .05em; }
+.ch-s-sel {
+  width: 100%; padding: 5px 2px;
+  border: 1.5px solid var(--gray-200); border-radius: 7px;
+  font-size: 12px; font-weight: 600; text-align: center;
+  background: var(--white); cursor: pointer; outline: none;
+}
+.ch-s-sel:focus { border-color: var(--purple-light); }
+.btn-add {
+  padding: 7px 14px; border-radius: 8px;
+  background: var(--purple); color: #fff;
+  font-size: 14px; font-weight: 700; border: none; cursor: pointer;
+  white-space: nowrap; display: inline-flex; align-items: center; gap: 4px;
+  transition: background .15s;
+}
+.btn-add:hover { background: var(--purple-mid); }
+.btn-primary {
+  padding: 10px 22px; border-radius: 10px;
+  background: var(--purple); color: #fff;
+  font-size: 15px; font-weight: 700; border: none; cursor: pointer;
+  transition: background .15s;
+}
+.btn-primary:hover { background: var(--purple-mid); }
+.btn-cancel {
+  padding: 10px 22px; border-radius: 10px;
+  background: var(--gray-100); color: var(--text-muted);
+  font-size: 15px; font-weight: 700; border: none; cursor: pointer;
+  transition: background .15s;
+}
+.btn-cancel:hover { background: var(--gray-200); }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">🌏</div>
+      <div class="logo-text">K-Food</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Overview</div>
+      <div class="nav-item active" onclick="switchPage('insights', this)">
+        <span class="nav-icon">📡</span> 인사이트
+      </div>
+      <div class="nav-item" onclick="switchPage('content', this)">
+        <span class="nav-icon">✏️</span> 콘텐츠 기획
+      </div>
+      <div class="nav-item" onclick="switchPage('archive', this)">
+        <span class="nav-icon">🎬</span> 촬영 기록
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">플랫폼</div>
+      <div class="nav-item"><span class="nav-icon">🎵</span> TikTok</div>
+      <div class="nav-item"><span class="nav-icon">📸</span> Instagram</div>
+      <div class="nav-item"><span class="nav-icon">🔴</span> Reddit</div>
+      <div class="nav-item"><span class="nav-icon">🐦</span> Twitter/X</div>
+      <div class="nav-item"><span class="nav-icon">▶️</span> YouTube</div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-label" style="margin-bottom:8px;">Settings</div>
+      <div class="nav-item"><span class="nav-icon">⚙️</span> 설정</div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="음식, 해시태그, 키워드 검색...">
+      </div>
+      <div class="topbar-actions">
+        <div class="icon-btn">🔔</div>
+        <div class="icon-btn">📊</div>
+        <button class="update-btn" onclick="loadData()">↻ 데이터 갱신</button>
+        <div class="updated-tag">
+          <span class="live-dot"></span>
+          <span id="nav-updated">로딩 중...</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT BODY -->
+    <div class="content-body">
+
+      <!-- CENTER PANEL -->
+      <div class="center-panel">
+
+        <!-- ── 인사이트 페이지 ── -->
+        <div id="page-insights" class="page-block active">
+
+          <!-- 히어로 배너 -->
+          <div class="hero-banner">
+            <div class="hero-eyebrow">Weekly K-Food SNS Report · <span id="hero-week">—</span></div>
+            <div class="hero-title">
+              이번 주 1위 <span id="hero-top">—</span><br>
+              <span style="font-size: 18px; font-weight:500; opacity:0.75;">5개 플랫폼 · <span id="hero-posts">—</span>개 게시물 분석</span>
+            </div>
+            <button class="hero-cta" onclick="document.querySelector('.platform-grid').scrollIntoView({behavior:'smooth'})">
+              상세 인사이트 보기
+              <span class="hero-cta-arrow">→</span>
+            </button>
+          </div>
+
+          <!-- 퀵 스탯 -->
+          <div class="quick-stats">
+            <div class="qstat">
+              <div class="qstat-icon">📋</div>
+              <div class="qstat-info">
+                <div class="qstat-val" id="stat-posts">—</div>
+                <div class="qstat-lbl">분석 게시물</div>
+              </div>
+            </div>
+            <div class="qstat">
+              <div class="qstat-icon">📅</div>
+              <div class="qstat-info">
+                <div class="qstat-val" id="stat-week" style="font-size: 17px;">—</div>
+                <div class="qstat-lbl">업데이트 주차</div>
+              </div>
+            </div>
+            <div class="qstat">
+              <div class="qstat-icon">🔋</div>
+              <div class="qstat-info">
+                <div class="qstat-val" id="stat-remain-num">—</div>
+                <div class="qstat-lbl">잔여 크레딧</div>
+              </div>
+            </div>
+            <div class="qstat">
+              <div class="qstat-icon">⏱</div>
+              <div class="qstat-info">
+                <div class="qstat-val" id="stat-duration">—</div>
+                <div class="qstat-lbl">예상 잔여 기간</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 랭킹 -->
+          <div>
+            <div class="sec-header">
+              <div class="sec-title">🔥 이번 주 K-Food TOP 10</div>
+              <div class="sec-link">SNS 종합 점수 기준</div>
+            </div>
+            <div class="rank-table">
+              <div class="rank-thead">
+                <span>#</span>
+                <span>음식명</span>
+                <span>SNS 점수</span>
+                <span>점수</span>
+                <span>변동</span>
+              </div>
+              <div id="ranking-list"></div>
+            </div>
+          </div>
+
+          <!-- 플랫폼 카드 -->
+          <div>
+            <div class="sec-header">
+              <div class="sec-title">📱 플랫폼별 상세 인사이트</div>
+            </div>
+            <div class="platform-tabs">
+              <button class="ptab active" onclick="filterPlatform('all', this)">전체</button>
+              <button class="ptab" onclick="filterPlatform('tiktok', this)">🎵 TikTok</button>
+              <button class="ptab" onclick="filterPlatform('instagram', this)">📸 Instagram</button>
+              <button class="ptab" onclick="filterPlatform('reddit', this)">🔴 Reddit</button>
+              <button class="ptab" onclick="filterPlatform('twitter', this)">🐦 Twitter/X</button>
+              <button class="ptab" onclick="filterPlatform('youtube', this)">▶️ YouTube</button>
+            </div>
+            <div class="platform-grid" id="platform-grid">
+              <div id="platform-tiktok"></div>
+              <div id="platform-instagram"></div>
+              <div id="platform-reddit"></div>
+              <div id="platform-twitter"></div>
+              <div id="platform-youtube"></div>
+            </div>
+          </div>
+
+          <!-- 실시간 리포트 -->
+          <div id="realtime-report-section" style="display:none;">
+            <div class="rt-banner">
+              <div>
+                <div class="rt-banner-title" id="rt-title">—</div>
+                <div class="rt-banner-sub" id="rt-subtitle">—</div>
+              </div>
+              <div class="rt-badge" id="rt-date">—</div>
+            </div>
+
+            <!-- 1. 바이럴 TikTok -->
+            <div style="margin-top:20px;">
+              <div class="sec-header">
+                <div class="sec-title">🔥 바이럴 TikTok 콘텐츠 TOP 6</div>
+                <div class="sec-link">Xpoz MCP 실수집</div>
+              </div>
+              <div style="background:var(--white);border:1.5px solid var(--gray-100);border-radius:14px;overflow:hidden;">
+                <table class="vt-table">
+                  <thead><tr>
+                    <th style="width:36px;">#</th><th>콘텐츠</th><th>음식</th><th>조회수</th><th>좋아요</th>
+                  </tr></thead>
+                  <tbody id="rt-viral-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- 2. 핫푸드 -->
+            <div style="margin-top:20px;">
+              <div class="sec-header">
+                <div class="sec-title">🍽 지금 뜨는 K-푸드 (플랫폼별)</div>
+              </div>
+              <div class="hot-food-grid" id="rt-hot-foods"></div>
+            </div>
+
+            <!-- 3. 지역별 K-푸드 열기 -->
+            <div style="margin-top:20px;">
+              <div class="sec-header">
+                <div class="sec-title">🌍 어느 나라에서 K-푸드에 열광하나</div>
+                <div class="sec-link">TikTok 위치 태그 분석</div>
+              </div>
+              <div class="geo-grid" id="rt-geo"></div>
+            </div>
+
+            <!-- 4. 외국인 궁금증 -->
+            <div style="margin-top:20px;">
+              <div class="sec-header">
+                <div class="sec-title">💬 외국인들이 실제로 궁금해하는 것</div>
+                <div class="sec-link">Reddit 실데이터 추출</div>
+              </div>
+              <div class="fq-list" id="rt-fq"></div>
+            </div>
+
+            <!-- 5. 시장 규모 -->
+            <div style="margin-top:20px;">
+              <div class="sec-header">
+                <div class="sec-title">📊 K-푸드 시장 규모</div>
+              </div>
+              <div class="market-grid" id="rt-market"></div>
+            </div>
+
+            <!-- 6. 진입 장벽 -->
+            <div style="margin-top:20px;">
+              <div class="sec-header">
+                <div class="sec-title">⚠ 진입 장벽 → 콘텐츠 해결 방향</div>
+              </div>
+              <div class="barrier-list" id="rt-barriers"></div>
+            </div>
+          </div>
+
+          <!-- 전체 레퍼런스 -->
+          <div>
+            <div class="sec-header">
+              <div class="sec-title">📎 전체 레퍼런스 & 출처 링크</div>
+              <div class="sec-link">수집일: <span id="ref-date">—</span></div>
+            </div>
+            <div id="references-wrap" style="background:var(--white);border:1.5px solid var(--gray-100);border-radius:14px;overflow:hidden;"></div>
+          </div>
+
+        </div><!-- /page-insights -->
+
+        <!-- ── 콘텐츠 기획 페이지 ── -->
+        <div id="page-content" class="page-block">
+
+          <!-- 히어로 배너 -->
+          <div class="hero-banner">
+            <div class="hero-eyebrow">원소스 멀티유즈 · <span id="content-week">—</span></div>
+            <div class="hero-title">
+              1개 주제 → 5개 채널<br>
+              <span style="font-size: 18px;font-weight:500;opacity:.78;">SNS 트렌드 기반 콘텐츠 자동 기획</span>
+            </div>
+          </div>
+
+          <!-- 주제 통계 -->
+          <div class="content-stats" id="content-stats"></div>
+
+          <!-- 콘텐츠 주제 카드 -->
+          <div>
+            <div class="sec-header">
+              <div class="sec-title">✏️ 이번 주 콘텐츠 주제</div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="sec-link">총 <span id="content-total">—</span>개 주제</div>
+                <button class="btn-add" onclick="openModal('content')">＋ 새 주제</button>
+              </div>
+            </div>
+            <div class="topic-grid" id="topic-grid"></div>
+          </div>
+
+          <!-- 주간 업로드 캘린더 -->
+          <div>
+            <div class="sec-header">
+              <div class="sec-title">📅 이번 주 업로드 일정</div>
+            </div>
+            <div class="cal-wrap">
+              <div class="cal-grid" id="cal-grid"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ── 촬영 기록 페이지 ── -->
+        <div id="page-archive" class="page-block">
+
+          <!-- 히어로 배너 -->
+          <div class="hero-banner" style="background: linear-gradient(135deg, #1A0F2E 0%, #4D2475 100%);">
+            <div class="hero-eyebrow">촬영 기록 아카이브 · <span id="archive-updated">—</span></div>
+            <div class="hero-title">
+              팀 촬영 데이터베이스<br>
+              <span style="font-size: 18px;font-weight:500;opacity:.78;">방문 기록 · 메뉴 · 콘텐츠 연결 · 편집 현황</span>
+            </div>
+          </div>
+
+          <!-- 통계 -->
+          <div class="content-stats" id="archive-stats"></div>
+
+          <!-- 기록 목록 -->
+          <div>
+            <div class="sec-header">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="sec-title">🎬 촬영 기록</div>
+                <button class="btn-add" onclick="openModal('archive')">＋ 새 기록</button>
+              </div>
+              <div class="archive-tabs">
+                <button class="atab active" onclick="filterArchive('all', this)">전체</button>
+                <button class="atab" onclick="filterArchive('done', this)">✅ 촬영완료</button>
+                <button class="atab" onclick="filterArchive('editing', this)">⏳ 편집중</button>
+                <button class="atab" onclick="filterArchive('unedited', this)">📦 미편집</button>
+              </div>
+            </div>
+            <div class="archive-grid" id="archive-grid"></div>
+          </div>
+
+        </div>
+
+      </div><!-- /center-panel -->
+
+      <!-- RIGHT PANEL -->
+      <div class="right-panel">
+
+        <!-- 크레딧 위젯 -->
+        <div class="widget">
+          <div class="widget-title">Xpoz 크레딧 <span id="credit-pct">—</span></div>
+          <div class="credit-bar-wrap">
+            <div class="credit-bar-labels">
+              <span>사용량</span>
+              <strong id="credit-ratio">—</strong>
+            </div>
+            <div class="credit-bar">
+              <div class="credit-fill" id="credit-fill" style="width:0%"></div>
+            </div>
+            <div class="credit-note" id="credit-note">—</div>
+          </div>
+          <!-- 도넛 차트 -->
+          <div class="donut-wrap" style="margin-top:16px;">
+            <svg class="donut-svg" viewBox="0 0 100 100">
+              <circle class="donut-track" cx="50" cy="50" r="45"/>
+              <circle class="donut-fill" id="donut-fill" cx="50" cy="50" r="45"/>
+              <text class="donut-label" x="50" y="46" text-anchor="middle" dominant-baseline="middle" id="donut-label">0%</text>
+              <text class="donut-sub" x="50" y="58" text-anchor="middle" id="donut-sub">사용됨</text>
+            </svg>
+            <div class="donut-legend">
+              <div class="legend-row">
+                <div class="legend-dot" style="background:var(--purple)"></div>
+                <span>사용: <strong id="leg-used">—</strong></span>
+              </div>
+              <div class="legend-row">
+                <div class="legend-dot" style="background:var(--gray-200)"></div>
+                <span>잔여: <strong id="leg-remain">—</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 플랫폼 분석량 -->
+        <div class="widget">
+          <div class="widget-title">플랫폼 분석량</div>
+          <div id="mini-stats"></div>
+        </div>
+
+        <!-- 감성 분석 -->
+        <div class="widget">
+          <div class="widget-title">🌍 지역별 반응 <span>긍정률</span></div>
+          <div id="sentiment-list"></div>
+        </div>
+
+      </div><!-- /right-panel -->
+
+    </div><!-- /content-body -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+// ── 페이지 탭 전환 ──
+function switchPage(id, el) {
+  document.querySelectorAll('.page-block').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  el.classList.add('active');
+}
+
+// ── 플랫폼 카드 필터 ──
+function filterPlatform(key, el) {
+  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const grid = document.getElementById('platform-grid');
+  const allCards = ['tiktok', 'instagram', 'reddit', 'twitter', 'youtube'];
+  if (key === 'all') {
+    grid.classList.remove('single');
+    allCards.forEach(k => {
+      const el = document.getElementById('platform-' + k);
+      el.style.display = '';
+    });
+    // 유튜브만 전체 너비
+    document.getElementById('platform-youtube').style.gridColumn = '1 / -1';
+  } else {
+    grid.classList.add('single');
+    allCards.forEach(k => {
+      const el = document.getElementById('platform-' + k);
+      el.style.display = k === key ? '' : 'none';
+      if (k === key) el.style.gridColumn = '';
+    });
+  }
+}
+
+// ── 플랫폼 카드 ──
+function renderPlatformCard(d, key) {
+  // 인기 태그 / 서브레딧 / 키워드 (URL 링크 포함)
+  let tagsHTML = '';
+  if (d.top_hashtags) {
+    tagsHTML = d.top_hashtags.slice(0, 6).map(h =>
+      `<span class="pc-tag"><a href="${h.url||'#'}" target="_blank"><strong>${h.tag}</strong></a><em>${h.count}</em></span>`
+    ).join('');
+  } else if (d.top_subreddits) {
+    tagsHTML = d.top_subreddits.map(s =>
+      `<span class="pc-tag"><a href="${s.url||'#'}" target="_blank"><strong>${s.name}</strong></a><em>${s.subscribers}</em></span>`
+    ).join('');
+  } else if (d.top_keywords) {
+    tagsHTML = d.top_keywords.slice(0, 4).map(k =>
+      `<span class="pc-tag"><a href="${k.url||'#'}" target="_blank"><strong>${k.keyword}</strong></a><em>${k.mentions}</em></span>`
+    ).join('');
+  }
+
+  // 핵심 인사이트 (객체: text + source + source_url)
+  const insightsHTML = d.key_insights.map(i => {
+    const txt = typeof i === 'string' ? i : i.text;
+    const srcTag = (typeof i === 'object' && i.source)
+      ? `<br><a class="pc-src-tag" href="${i.source_url||'#'}" target="_blank">📌 출처: ${i.source} ↗</a>`
+      : '';
+    return `<div class="pc-insight">${txt}${srcTag}</div>`;
+  }).join('');
+
+  // 바이럴 콘텐츠 (why_notable 추가)
+  const virals = d.viral_contents.map(v => {
+    const stats = [];
+    if (v.views)    stats.push(`👁 ${v.views}`);
+    if (v.likes)    stats.push(`❤️ ${v.likes}`);
+    if (v.saves)    stats.push(`🔖 ${v.saves}`);
+    if (v.upvotes)  stats.push(`⬆ ${v.upvotes}`);
+    if (v.comments) stats.push(`💬 ${v.comments}`);
+    if (v.retweets) stats.push(`🔁 ${v.retweets}`);
+    const creator = v.creator || v.subreddit || v.author || '';
+    const foodTag = v.food_topic ? `<span class="pc-viral-stat" style="color:var(--purple-mid);font-weight:600;">🍽 ${v.food_topic}</span>` : '';
+    const whyNote = v.why_notable ? `<div class="pc-viral-why">💡 ${v.why_notable}</div>` : '';
+    return `<div class="pc-viral">
+      <div class="pc-viral-title">"${v.title}"</div>
+      <div class="pc-viral-meta">
+        <span class="pc-viral-stat">${creator}</span>
+        ${foodTag}
+        ${stats.map(s => `<span class="pc-viral-stat">${s}</span>`).join('')}
+        <a href="${v.url}" target="_blank" class="pc-viral-link">보기 ↗</a>
+      </div>
+      ${whyNote}
+    </div>`;
+  }).join('');
+
+  const srcLink = d.source_url
+    ? `<a class="pc-header-src" href="${d.source_url}" target="_blank">출처 ${d.source_tool||''} ↗</a>`
+    : '';
+
+  return `<div class="platform-card">
+    <div class="pc-header">
+      <div class="pc-icon ${key}">${d.icon}</div>
+      <div>
+        <div class="pc-name">${d.name}</div>
+        <div class="pc-count">분석 ${d.posts_analyzed}개 게시물</div>
+      </div>
+      ${srcLink}
+    </div>
+    <div>
+      <div style="font-size: 13px;font-weight:700;color:var(--text-light);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;">인기 태그</div>
+      <div class="pc-tags">${tagsHTML}</div>
+    </div>
+    <div>
+      <div style="font-size: 13px;font-weight:700;color:var(--text-light);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;">핵심 인사이트</div>
+      <div class="pc-insights">${insightsHTML}</div>
+    </div>
+    <div>
+      <div style="font-size: 13px;font-weight:700;color:var(--text-light);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;">바이럴 콘텐츠</div>
+      ${virals}
+    </div>
+  </div>`;
+}
+
+// ── 촬영 기록 아카이브 로드 ──
+async function loadArchiveData() {
+  try {
+    const res = await fetch('./data/archive.json?t=' + Date.now());
+    const d = await res.json();
+
+    // localStorage 머지 (신규 + overrides 처리)
+    const archiveItems    = JSON.parse(localStorage.getItem('kfood_archive_items')    || '[]');
+    const archiveOverrides = JSON.parse(localStorage.getItem('kfood_archive_overrides') || '{}');
+
+    const jsonRecords = d.records
+      .filter(r => archiveOverrides[String(r.id)] !== null)
+      .map(r => {
+        const ov = archiveOverrides[String(r.id)];
+        return (ov && ov !== null) ? { ...r, ...ov, _overridden: true } : r;
+      });
+    const allRecords = [...jsonRecords, ...archiveItems];
+
+    // 동적 통계 계산
+    const nowYM = new Date().toISOString().slice(0, 7);
+    const statTotal   = allRecords.length;
+    const statMonth   = allRecords.filter(r => r.date && r.date.startsWith(nowYM)).length;
+    const statLinked  = allRecords.filter(r => r.linked_topic_id).length;
+    const statPending = allRecords.filter(r => r.shoot_status === 'editing').length;
+
+    document.getElementById('archive-updated').textContent = d.meta.updated;
+    document.getElementById('archive-stats').innerHTML = `
+      <div class="cstat"><div class="cstat-icon total">📷</div><div><div class="cstat-val">${statTotal}</div><div class="cstat-lbl">총 촬영 기록</div></div></div>
+      <div class="cstat"><div class="cstat-icon done">📅</div><div><div class="cstat-val">${statMonth}</div><div class="cstat-lbl">이번 달</div></div></div>
+      <div class="cstat"><div class="cstat-icon prog">🔗</div><div><div class="cstat-val">${statLinked}</div><div class="cstat-lbl">콘텐츠 연결</div></div></div>
+      <div class="cstat"><div class="cstat-icon todo">✂️</div><div><div class="cstat-val">${statPending}</div><div class="cstat-lbl">편집 중</div></div></div>
+    `;
+
+    const stLabel = { done: '✅ 촬영완료', editing: '⏳ 편집중', unedited: '📦 미편집' };
+
+    function renderCards(records) {
+      if (!records.length) return `<div class="archive-empty">해당하는 기록이 없습니다</div>`;
+      return records.map(r => {
+        const foods  = r.foods.map(f => `<span class="ac-food">${f}</span>`).join('');
+        const team   = r.team.map(m => `<div class="ac-member">${m[0]}</div>`).join('');
+        const linked = r.linked_topic
+          ? `<div class="ac-linked">🔗 ${r.linked_topic}</div>`
+          : `<div class="ac-linked none">⚪ 콘텐츠 미연결</div>`;
+        return `<div class="archive-card" data-status="${r.shoot_status}">
+          <div class="ac-head">
+            <div>
+              <div class="ac-name">${r.restaurant}</div>
+              <div class="ac-name-en">${r.restaurant_en}</div>
+              <div class="ac-meta">
+                <span class="ac-date">📅 ${r.date}</span>
+                <span class="ac-loc">📍 ${r.location.area}</span>
+              </div>
+            </div>
+            <span class="ac-status ${r.shoot_status}">${stLabel[r.shoot_status]}</span>
+          </div>
+          <div class="ac-foods">${foods}</div>
+          ${linked}
+          <div class="ac-footer">
+            <div class="ac-team">${team}</div>
+            <span class="ac-cat">${r.category}</span>
+          </div>
+          <div class="ac-memo">${r.memo}</div>
+          <div style="display:flex;justify-content:flex-end;gap:12px;padding-top:8px;border-top:1px solid var(--gray-100);">
+            <button onclick="editArchive(${r.id})" style="font-size: 13px;font-weight:700;color:var(--purple);background:none;border:none;cursor:pointer;">✏️ 수정</button>
+            <button onclick="deleteArchive(${r.id})" style="font-size: 13px;font-weight:700;color:var(--text-light);background:none;border:none;cursor:pointer;">✕ 삭제</button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    window._archiveRecords = allRecords;
+    document.getElementById('archive-grid').innerHTML = renderCards(allRecords);
+
+    window.filterArchive = function(status, el) {
+      document.querySelectorAll('.atab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      const filtered = status === 'all' ? window._archiveRecords
+        : window._archiveRecords.filter(r => r.shoot_status === status);
+      document.getElementById('archive-grid').innerHTML = renderCards(filtered);
+    };
+
+  } catch(e) { console.error('아카이브 로드 실패:', e); }
+}
+
+// ── 콘텐츠 기획 로드 ──
+async function loadContentData() {
+  try {
+    const res = await fetch('./data/content.json?t=' + Date.now());
+    const d = await res.json();
+
+    // localStorage 머지 (신규 + overrides 처리)
+    const contentItems     = JSON.parse(localStorage.getItem('kfood_content_items')     || '[]');
+    const contentOverrides = JSON.parse(localStorage.getItem('kfood_content_overrides') || '{}');
+
+    const jsonTopics = d.topics
+      .filter(t => contentOverrides[String(t.id)] !== null)
+      .map(t => {
+        const ov = contentOverrides[String(t.id)];
+        return (ov && ov !== null) ? { ...t, ...ov, _overridden: true } : t;
+      });
+    const allTopics = [...jsonTopics, ...contentItems];
+    window._contentTopics = allTopics;
+
+    document.getElementById('content-week').textContent = d.meta.week;
+    document.getElementById('content-total').textContent = allTopics.length;
+
+    // 동적 통계 계산
+    function topicStat(t) {
+      const s = Object.values(t.channels).map(c => c.status);
+      if (s.every(x => x === 'done')) return 'done';
+      if (s.every(x => x === 'todo')) return 'todo';
+      return 'in_progress';
+    }
+    const statDone  = allTopics.filter(t => topicStat(t) === 'done').length;
+    const statProg  = allTopics.filter(t => topicStat(t) === 'in_progress').length;
+    const statTodo  = allTopics.filter(t => topicStat(t) === 'todo').length;
+
+    document.getElementById('content-stats').innerHTML = `
+      <div class="cstat"><div class="cstat-icon total">✏️</div><div><div class="cstat-val">${allTopics.length}</div><div class="cstat-lbl">이번 주 주제</div></div></div>
+      <div class="cstat"><div class="cstat-icon done">✅</div><div><div class="cstat-val">${statDone}</div><div class="cstat-lbl">완료</div></div></div>
+      <div class="cstat"><div class="cstat-icon prog">⏳</div><div><div class="cstat-val">${statProg}</div><div class="cstat-lbl">진행 중</div></div></div>
+      <div class="cstat"><div class="cstat-icon todo">📋</div><div><div class="cstat-val">${statTodo}</div><div class="cstat-lbl">예정</div></div></div>
+    `;
+
+    // 채널 메타
+    const chIcon  = { blog: '📝', youtube: '▶️', instagram: '📸', tiktok: '🎵', twitter: '🐦' };
+    const chLabel = { blog: 'Blog', youtube: 'YT', instagram: 'IG', tiktok: 'TT', twitter: 'TW' };
+    const stLabel = { done: '완료', in_progress: '진행중', todo: '예정' };
+    const srcIcon = { tiktok: '🎵', instagram: '📸', reddit: '🔴', twitter: '🐦', youtube: '▶️' };
+
+    // 주제 카드
+    document.getElementById('topic-grid').innerHTML = allTopics.map(t => {
+      const channels = ['blog','youtube','instagram','tiktok','twitter'].map(ch => {
+        const c = t.channels[ch];
+        return `<div class="tc-ch">
+          <div class="tc-ch-dot ${c.status}">${chIcon[ch]}</div>
+          <div class="tc-ch-label">${chLabel[ch]}</div>
+          <div class="tc-ch-status ${c.status}">${stLabel[c.status]}</div>
+        </div>`;
+      }).join('');
+
+      const hashEn = t.hashtags_en.slice(0,4).map(h=>`<span class="tc-hash">${h}</span>`).join('');
+      const hashKo = t.hashtags_ko.slice(0,3).map(h=>`<span class="tc-hash">${h}</span>`).join('');
+
+      const priLabel = t.priority === 'high' ? '🔥 HIGH' : 'MED';
+      const priBadge = `<span class="tc-badge pri-${t.priority}">${priLabel}</span>`;
+
+      return `<div class="topic-card priority-${t.priority}">
+        <div class="tc-head">
+          <div style="flex:1;min-width:0;">
+            <div class="tc-title-en">${t.title}</div>
+            <div class="tc-title-ko">${t.title_ko}</div>
+            <div class="tc-source">${srcIcon[t.source_platform] || '📊'} ${t.source_insight}</div>
+          </div>
+          <div class="tc-badges">
+            <span class="tc-badge src-${t.source_platform}">${t.source_platform}</span>
+            ${priBadge}
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 13px;font-weight:700;color:var(--text-light);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;">채널별 현황</div>
+          <div class="tc-channels">${channels}</div>
+        </div>
+        <div class="tc-hashtags">${hashEn}${hashKo}</div>
+        <div class="tc-memo">💬 ${t.memo || '—'}</div>
+        <div style="display:flex;justify-content:flex-end;gap:12px;padding-top:8px;border-top:1px solid var(--gray-100);">
+          <button onclick="editContent(${t.id})" style="font-size: 13px;font-weight:700;color:var(--purple);background:none;border:none;cursor:pointer;">✏️ 수정</button>
+          <button onclick="deleteContent(${t.id})" style="font-size: 13px;font-weight:700;color:var(--text-light);background:none;border:none;cursor:pointer;">✕ 삭제</button>
+        </div>
+      </div>`;
+    }).join('');
+
+    // 캘린더
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('cal-grid').innerHTML = d.calendar.map(day => {
+      const isToday = day.date === today;
+      const items = day.items.length > 0
+        ? day.items.map(i => `<div class="cal-item ch-${i.channel}">${i.label}</div>`).join('')
+        : `<div class="cal-empty">—</div>`;
+      return `<div class="cal-day">
+        <div class="cal-day-head">
+          <div class="cal-day-label">${day.day}</div>
+          <div class="cal-day-num ${isToday?'today':''}">${day.date.split('-')[2]}</div>
+        </div>
+        ${items}
+      </div>`;
+    }).join('');
+
+  } catch(e) { console.error('콘텐츠 로드 실패:', e); }
+}
+
+// ── 메인 로드 ──
+async function loadData() {
+  try {
+    const res = await fetch('./data/insights.json?t=' + Date.now());
+    const d = await res.json();
+    const m = d.meta;
+
+    document.getElementById('nav-updated').textContent = `업데이트: ${m.updated}`;
+    document.getElementById('stat-posts').textContent = m.total_posts_analyzed.toLocaleString();
+    document.getElementById('stat-week').textContent = m.week;
+    document.getElementById('stat-remain-num').textContent = m.credits_remaining.toLocaleString();
+    const weeksLeft = Math.floor(m.credits_remaining / 25);
+    document.getElementById('stat-duration').textContent = `약 ${weeksLeft}주`;
+
+    // 히어로 배너 동적 업데이트
+    const top1 = d.trending_foods[0];
+    document.getElementById('hero-week').textContent = m.week;
+    document.getElementById('hero-top').textContent = `${top1.name} (${top1.name_ko})`;
+    document.getElementById('hero-posts').textContent = m.total_posts_analyzed.toLocaleString();
+
+    // 크레딧
+    const usedPct = Math.round((m.credits_used / 5000) * 100);
+    document.getElementById('credit-pct').textContent = `${usedPct}% 사용`;
+    document.getElementById('credit-ratio').textContent = `${m.credits_used} / 5,000`;
+    document.getElementById('credit-fill').style.width = usedPct + '%';
+    document.getElementById('credit-note').textContent = `주 1회 기준 약 ${weeksLeft}주 사용 가능`;
+    document.getElementById('leg-used').textContent = m.credits_used;
+    document.getElementById('leg-remain').textContent = m.credits_remaining.toLocaleString();
+
+    // 도넛
+    const circumference = 2 * Math.PI * 45;
+    const offset = circumference * (1 - usedPct / 100);
+    const donutFill = document.getElementById('donut-fill');
+    donutFill.style.strokeDasharray = circumference;
+    setTimeout(() => { donutFill.style.strokeDashoffset = offset; }, 200);
+    document.getElementById('donut-label').textContent = usedPct + '%';
+
+    // 랭킹
+    const pillMap = { TikTok: 'tiktok', Instagram: 'instagram', Reddit: 'reddit', Twitter: 'twitter', YouTube: 'youtube' };
+    document.getElementById('ranking-list').innerHTML = d.trending_foods.map(f => {
+      const cls = f.change.startsWith('+') ? 'up' : f.change === '0' ? 'same' : 'down';
+      const lbl = f.change === '0' ? '–' : f.change;
+      const pills = f.platforms.map(p =>
+        `<span class="pill pill-${pillMap[p]||''}">${p}</span>`
+      ).join('');
+      return `<div class="rank-row">
+        <div class="rank-num ${f.rank <= 3 ? 'top3' : ''}">${f.rank}</div>
+        <div>
+          <div class="rank-food-name">${f.name} ${pills}</div>
+          <div class="rank-food-ko">${f.name_ko}</div>
+        </div>
+        <div class="rank-bar-wrap">
+          <div class="rank-bar"><div class="rank-bar-fill" style="width:${f.score}%"></div></div>
+        </div>
+        <div class="rank-score">${f.score}</div>
+        <div class="rank-change ${cls}">${lbl}</div>
+      </div>`;
+    }).join('');
+
+    // 플랫폼 카드
+    const pl = d.platforms;
+    document.getElementById('platform-tiktok').innerHTML    = renderPlatformCard(pl.tiktok,    'tiktok');
+    document.getElementById('platform-instagram').innerHTML = renderPlatformCard(pl.instagram,  'instagram');
+    document.getElementById('platform-reddit').innerHTML    = renderPlatformCard(pl.reddit,     'reddit');
+    document.getElementById('platform-twitter').innerHTML   = renderPlatformCard(pl.twitter,    'twitter');
+    document.getElementById('platform-youtube').innerHTML  = renderPlatformCard(pl.youtube,    'youtube');
+
+    // ── 실시간 리포트 렌더링 ──
+    const rt = d.realtime_report;
+    if (rt) {
+      document.getElementById('realtime-report-section').style.display = '';
+      document.getElementById('rt-title').textContent    = rt.title;
+      document.getElementById('rt-subtitle').textContent = rt.subtitle;
+      document.getElementById('rt-date').textContent     = rt.date;
+
+      // 바이럴 TikTok
+      document.getElementById('rt-viral-tbody').innerHTML = rt.viral_tiktok.map(v => `
+        <tr>
+          <td class="vt-rank">${v.rank}</td>
+          <td>
+            <div class="vt-title"><a href="${v.url}" target="_blank">${v.title} ↗</a></div>
+            <div class="vt-creator">${v.creator}</div>
+            ${v.note ? `<div class="vt-note">${v.note}</div>` : ''}
+          </td>
+          <td><span class="vt-food-badge">${v.food}</span></td>
+          <td class="vt-metric">👁 ${v.views}</td>
+          <td class="vt-metric">❤️ ${v.likes}</td>
+        </tr>`).join('');
+
+      // 핫푸드
+      document.getElementById('rt-hot-foods').innerHTML = rt.hot_foods.map(f => `
+        <div class="hf-card">
+          <div class="hf-head">
+            <div>
+              <div class="hf-name">${f.food}</div>
+              <div class="hf-name-en">${f.food_en}</div>
+            </div>
+            <div class="hf-platforms">${f.platforms.map(p => `<span class="hf-pill ${p}">${p}</span>`).join('')}</div>
+          </div>
+          <div class="hf-highlight"><a href="${f.highlight_url}" target="_blank">📌 ${f.highlight} ↗</a></div>
+          <div class="hf-insight">💡 ${f.insight}</div>
+        </div>`).join('');
+
+      // 지역
+      document.getElementById('rt-geo').innerHTML = rt.geography.map(g => `
+        <div class="geo-card">
+          <div class="geo-flag">${g.icon}</div>
+          <div>
+            <div class="geo-country">${g.country}</div>
+            <div class="geo-cities">${g.cities.join(' · ')}</div>
+            <div class="geo-trend">${g.content_trend}</div>
+          </div>
+        </div>`).join('');
+
+      // 외국인 궁금증
+      document.getElementById('rt-fq').innerHTML = rt.foreigner_questions.map(fq => `
+        <div class="fq-item">
+          <div style="flex:1;">
+            <div class="fq-q">${fq.q}</div>
+            <div class="fq-meta">
+              <span class="fq-src">출처: <a href="${fq.source_url}" target="_blank">${fq.source} ↗</a></span>
+              ${fq.replies ? `<span class="fq-replies">댓글 ${fq.replies}개</span>` : ''}
+            </div>
+          </div>
+          <div class="fq-opp">💡 ${fq.opportunity}</div>
+        </div>`).join('');
+
+      // 시장 규모
+      document.getElementById('rt-market').innerHTML = rt.market_data.map(mk => `
+        <div class="mkt-card">
+          <div class="mkt-val">${mk.value}</div>
+          <div class="mkt-stat">${mk.stat}</div>
+          <div class="mkt-detail">${mk.detail}</div>
+          <div class="mkt-src"><a href="${mk.source_url}" target="_blank">📌 ${mk.source} ↗</a></div>
+        </div>`).join('');
+
+      // 진입 장벽
+      document.getElementById('rt-barriers').innerHTML = rt.entry_barriers.map(b => `
+        <div class="barrier-item">
+          <div class="barrier-prob">${b.barrier}</div>
+          <div class="barrier-sol">${b.content_solution}</div>
+        </div>`).join('');
+    }
+
+    // 레퍼런스 테이블
+    document.getElementById('ref-date').textContent = m.collection_date || m.updated;
+    const refPillMap = { TikTok: 'tiktok', Instagram: 'instagram', Reddit: 'reddit', 'Twitter/X': 'twitter', YouTube: 'youtube' };
+    if (d.references && d.references.length) {
+      document.getElementById('references-wrap').innerHTML = `
+        <table class="ref-table">
+          <thead><tr>
+            <th>#</th><th>콘텐츠</th><th>플랫폼</th><th>지표</th><th>음식</th><th>유형</th><th>날짜</th>
+          </tr></thead>
+          <tbody>${d.references.map(r => `
+            <tr>
+              <td style="color:var(--text-light);font-size: 13px;">${r.id}</td>
+              <td>
+                <div class="ref-ttl"><a href="${r.url}" target="_blank">${r.title} ↗</a></div>
+                <div class="ref-creator">${r.creator}</div>
+              </td>
+              <td><span class="ref-pill ${refPillMap[r.platform]||''}">${r.platform}</span></td>
+              <td class="ref-metrics">${r.metrics}</td>
+              <td class="ref-food">${r.food_topic}</td>
+              <td class="ref-type">${r.content_type}</td>
+              <td style="font-size: 13px;color:var(--text-light);white-space:nowrap;">${r.date}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>`;
+    }
+
+    // 미니 스탯
+    const miniData = [
+      { key: 'tiktok',    icon: '🎵', name: 'TikTok',     count: pl.tiktok.posts_analyzed },
+      { key: 'instagram', icon: '📸', name: 'Instagram',  count: pl.instagram.posts_analyzed },
+      { key: 'reddit',    icon: '🔴', name: 'Reddit',     count: pl.reddit.posts_analyzed },
+      { key: 'twitter',   icon: '🐦', name: 'Twitter/X',  count: pl.twitter.posts_analyzed },
+      { key: 'youtube',   icon: '▶️', name: 'YouTube',    count: pl.youtube.posts_analyzed },
+    ];
+    const apiLabel = { tiktok: 'Xpoz MCP', instagram: 'Xpoz MCP', reddit: 'Xpoz MCP', twitter: 'Xpoz MCP', youtube: 'YouTube API' };
+    document.getElementById('mini-stats').innerHTML = miniData.map(ms =>
+      `<div class="mini-stat-row">
+        <div class="mini-stat-left">
+          <div class="mini-icon ${ms.key}">${ms.icon}</div>
+          <div>
+            <div class="mini-name">${ms.name}</div>
+            <div class="mini-count">${apiLabel[ms.key]}</div>
+          </div>
+        </div>
+        <div class="mini-stat-val">${ms.count}</div>
+      </div>`
+    ).join('');
+
+    // 감성
+    document.getElementById('sentiment-list').innerHTML = d.regional_sentiment.map(r =>
+      `<div class="sentiment-row">
+        <div class="s-region">${r.region}</div>
+        <div class="s-bars">
+          <div class="s-pos" style="flex:${r.positive}"></div>
+          <div class="s-neu" style="flex:${r.neutral}"></div>
+          <div class="s-neg" style="flex:${r.negative}"></div>
+        </div>
+        <div class="s-pct">${r.positive}%</div>
+      </div>`
+    ).join('');
+
+  } catch(e) { console.error('로드 실패:', e); }
+}
+
+loadData();
+loadContentData();
+loadArchiveData();
+
+// ── 편집 상태 ──
+window._editingContentId = null;
+window._editingArchiveId = null;
+
+// ── 폼 초기화 헬퍼 ──
+function resetContentForm() {
+  ['c-title-en','c-title-ko','c-insight','c-category','c-hash-en','c-hash-ko','c-memo']
+    .forEach(id => document.getElementById(id).value = '');
+  document.getElementById('c-platform').value = 'tiktok';
+  document.getElementById('c-priority').value = 'high';
+  ['c-ch-blog','c-ch-youtube','c-ch-instagram','c-ch-tiktok','c-ch-twitter']
+    .forEach(id => document.getElementById(id).value = 'todo');
+}
+function resetArchiveForm() {
+  ['a-name-ko','a-name-en','a-foods','a-team','a-memo','a-city','a-area']
+    .forEach(id => document.getElementById(id).value = '');
+  document.getElementById('a-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('a-status').value = 'unedited';
+  document.getElementById('a-topic').value = '';
+  document.getElementById('a-category').value = '길거리음식';
+}
+
+// ── 수정 진입 ──
+function editContent(id) { openModal('content', id); }
+function editArchive(id) { openModal('archive', id); }
+
+// ── 모달 열기 ──
+function openModal(type, editId = null) {
+  const overlay = document.getElementById('modal-' + type + '-overlay');
+  overlay.classList.add('open');
+  const isEdit = editId !== null;
+
+  if (type === 'content') {
+    window._editingContentId = editId;
+    overlay.querySelector('.modal-title').textContent = isEdit ? '✏️ 콘텐츠 주제 수정' : '✏️ 새 콘텐츠 주제 추가';
+    overlay.querySelector('.btn-primary').textContent = isEdit ? '✔ 수정 저장' : '＋ 주제 추가';
+    if (isEdit) {
+      const item = (window._contentTopics || []).find(t => t.id === editId);
+      if (!item) return;
+      document.getElementById('c-title-en').value  = item.title || '';
+      document.getElementById('c-title-ko').value  = item.title_ko || '';
+      document.getElementById('c-platform').value  = item.source_platform || 'tiktok';
+      document.getElementById('c-priority').value  = item.priority || 'high';
+      document.getElementById('c-category').value  = item.category || '';
+      document.getElementById('c-insight').value   = item.source_insight || '';
+      document.getElementById('c-hash-en').value   = (item.hashtags_en || []).join(', ');
+      document.getElementById('c-hash-ko').value   = (item.hashtags_ko || []).join(', ');
+      document.getElementById('c-memo').value      = item.memo || '';
+      ['blog','youtube','instagram','tiktok','twitter'].forEach(ch => {
+        document.getElementById('c-ch-' + ch).value = item.channels[ch]?.status || 'todo';
+      });
+    } else {
+      resetContentForm();
+    }
+  }
+
+  if (type === 'archive') {
+    window._editingArchiveId = editId;
+    overlay.querySelector('.modal-title').textContent = isEdit ? '🎬 촬영 기록 수정' : '🎬 새 촬영 기록 추가';
+    overlay.querySelector('.btn-primary').textContent = isEdit ? '✔ 수정 저장' : '＋ 기록 추가';
+    // 연결 주제 드롭다운 동적 구성
+    const sel = document.getElementById('a-topic');
+    sel.innerHTML = '<option value="">⚪ 미연결</option>';
+    (window._contentTopics || []).forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t.id; opt.textContent = t.title_ko;
+      sel.appendChild(opt);
+    });
+    if (isEdit) {
+      const item = (window._archiveRecords || []).find(r => r.id === editId);
+      if (!item) return;
+      document.getElementById('a-name-ko').value  = item.restaurant || '';
+      document.getElementById('a-name-en').value  = item.restaurant_en || '';
+      document.getElementById('a-date').value     = item.date || '';
+      document.getElementById('a-city').value     = item.location?.city || '';
+      document.getElementById('a-area').value     = item.location?.area || '';
+      document.getElementById('a-foods').value    = (item.foods || []).join(', ');
+      document.getElementById('a-status').value   = item.shoot_status || 'unedited';
+      document.getElementById('a-topic').value    = item.linked_topic_id || '';
+      document.getElementById('a-team').value     = (item.team || []).join(', ');
+      document.getElementById('a-memo').value     = item.memo || '';
+      document.getElementById('a-category').value = item.category || '길거리음식';
+    } else {
+      resetArchiveForm();
+    }
+  }
+}
+
+// ── 모달 닫기 ──
+function closeModal(type) {
+  document.getElementById('modal-' + type + '-overlay').classList.remove('open');
+  if (type === 'content') window._editingContentId = null;
+  if (type === 'archive') window._editingArchiveId = null;
+}
+
+// ── 콘텐츠 폼 데이터 수집 ──
+function collectContentData() {
+  const parseHash = id => document.getElementById(id).value.split(',').map(h => h.trim()).filter(Boolean);
+  return {
+    title:          document.getElementById('c-title-en').value.trim(),
+    title_ko:       document.getElementById('c-title-ko').value.trim(),
+    source_insight: document.getElementById('c-insight').value.trim(),
+    source_platform:document.getElementById('c-platform').value,
+    category:       document.getElementById('c-category').value.trim() || '기타',
+    priority:       document.getElementById('c-priority').value,
+    channels: {
+      blog:      { status: document.getElementById('c-ch-blog').value,      title: '', url: '' },
+      youtube:   { status: document.getElementById('c-ch-youtube').value,   title: '', url: '' },
+      instagram: { status: document.getElementById('c-ch-instagram').value, title: '', url: '' },
+      tiktok:    { status: document.getElementById('c-ch-tiktok').value,    title: '', url: '' },
+      twitter:   { status: document.getElementById('c-ch-twitter').value,   title: '', url: '' }
+    },
+    hashtags_en: parseHash('c-hash-en'),
+    hashtags_ko: parseHash('c-hash-ko'),
+    memo: document.getElementById('c-memo').value.trim()
+  };
+}
+
+// ── 아카이브 폼 데이터 수집 ──
+function collectArchiveData() {
+  const topicVal = document.getElementById('a-topic').value;
+  const linked   = topicVal ? (window._contentTopics || []).find(t => String(t.id) === topicVal) : null;
+  const area     = document.getElementById('a-area').value.trim();
+  return {
+    restaurant:      document.getElementById('a-name-ko').value.trim(),
+    restaurant_en:   document.getElementById('a-name-en').value.trim(),
+    date:            document.getElementById('a-date').value,
+    location:        { city: document.getElementById('a-city').value.trim() || '서울', district: area, area },
+    foods:           document.getElementById('a-foods').value.split(',').map(f => f.trim()).filter(Boolean),
+    shoot_status:    document.getElementById('a-status').value,
+    linked_topic_id: topicVal ? Number(topicVal) : null,
+    linked_topic:    linked ? linked.title_ko : null,
+    team:            document.getElementById('a-team').value.split(',').map(m => m.trim()).filter(Boolean),
+    memo:            document.getElementById('a-memo').value.trim(),
+    category:        document.getElementById('a-category').value
+  };
+}
+
+// ── 콘텐츠 저장/수정 ──
+function saveContent() {
+  const data = collectContentData();
+  if (!data.title || !data.title_ko) { alert('제목(영문/한글)을 모두 입력해 주세요.'); return; }
+  const editId = window._editingContentId;
+
+  if (editId !== null) {
+    const item = (window._contentTopics || []).find(t => t.id === editId);
+    if (item?._local) {
+      const stored = JSON.parse(localStorage.getItem('kfood_content_items') || '[]');
+      const idx = stored.findIndex(t => t.id === editId);
+      if (idx !== -1) stored[idx] = { ...stored[idx], ...data };
+      localStorage.setItem('kfood_content_items', JSON.stringify(stored));
+    } else {
+      const ov = JSON.parse(localStorage.getItem('kfood_content_overrides') || '{}');
+      ov[String(editId)] = data;
+      localStorage.setItem('kfood_content_overrides', JSON.stringify(ov));
+    }
+  } else {
+    const stored = JSON.parse(localStorage.getItem('kfood_content_items') || '[]');
+    stored.push({ id: Date.now(), ...data, _local: true });
+    localStorage.setItem('kfood_content_items', JSON.stringify(stored));
+  }
+  closeModal('content');
+  loadContentData();
+}
+
+// ── 아카이브 저장/수정 ──
+function saveArchive() {
+  const data = collectArchiveData();
+  if (!data.restaurant) { alert('식당명(한글)을 입력해 주세요.'); return; }
+  const editId = window._editingArchiveId;
+
+  if (editId !== null) {
+    const item = (window._archiveRecords || []).find(r => r.id === editId);
+    if (item?._local) {
+      const stored = JSON.parse(localStorage.getItem('kfood_archive_items') || '[]');
+      const idx = stored.findIndex(r => r.id === editId);
+      if (idx !== -1) stored[idx] = { ...stored[idx], ...data };
+      localStorage.setItem('kfood_archive_items', JSON.stringify(stored));
+    } else {
+      const ov = JSON.parse(localStorage.getItem('kfood_archive_overrides') || '{}');
+      ov[String(editId)] = data;
+      localStorage.setItem('kfood_archive_overrides', JSON.stringify(ov));
+    }
+  } else {
+    const stored = JSON.parse(localStorage.getItem('kfood_archive_items') || '[]');
+    stored.push({ id: Date.now(), ...data, _local: true });
+    localStorage.setItem('kfood_archive_items', JSON.stringify(stored));
+  }
+  closeModal('archive');
+  loadArchiveData();
+}
+
+// ── 삭제 ──
+function deleteContent(id) {
+  if (!confirm('이 주제를 삭제할까요?')) return;
+  const item = (window._contentTopics || []).find(t => t.id === id);
+  if (item?._local) {
+    const stored = JSON.parse(localStorage.getItem('kfood_content_items') || '[]');
+    localStorage.setItem('kfood_content_items', JSON.stringify(stored.filter(t => t.id !== id)));
+  } else {
+    const ov = JSON.parse(localStorage.getItem('kfood_content_overrides') || '{}');
+    ov[String(id)] = null;
+    localStorage.setItem('kfood_content_overrides', JSON.stringify(ov));
+  }
+  loadContentData();
+}
+function deleteArchive(id) {
+  if (!confirm('이 기록을 삭제할까요?')) return;
+  const item = (window._archiveRecords || []).find(r => r.id === id);
+  if (item?._local) {
+    const stored = JSON.parse(localStorage.getItem('kfood_archive_items') || '[]');
+    localStorage.setItem('kfood_archive_items', JSON.stringify(stored.filter(r => r.id !== id)));
+  } else {
+    const ov = JSON.parse(localStorage.getItem('kfood_archive_overrides') || '{}');
+    ov[String(id)] = null;
+    localStorage.setItem('kfood_archive_overrides', JSON.stringify(ov));
+  }
+  loadArchiveData();
+}
+</script>
+
+<!-- ── 콘텐츠 주제 추가 모달 ── -->
+<div class="modal-overlay" id="modal-content-overlay" onclick="if(event.target===this)closeModal('content')">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">✏️ 새 콘텐츠 주제 추가</div>
+      <button class="modal-close" onclick="closeModal('content')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">제목 (영문)</label>
+          <input class="form-input" id="c-title-en" placeholder="Why Foreigners Love...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">제목 (한글)</label>
+          <input class="form-input" id="c-title-ko" placeholder="외국인이 사랑하는...">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">소스 플랫폼</label>
+          <select class="form-select" id="c-platform">
+            <option value="tiktok">🎵 TikTok</option>
+            <option value="instagram">📸 Instagram</option>
+            <option value="reddit">🔴 Reddit</option>
+            <option value="twitter">🐦 Twitter/X</option>
+            <option value="youtube">▶️ YouTube</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">우선순위</label>
+          <select class="form-select" id="c-priority">
+            <option value="high">🔥 HIGH</option>
+            <option value="medium">MED</option>
+            <option value="low">LOW</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">카테고리</label>
+          <input class="form-input" id="c-category" placeholder="음식 문화, 챌린지 콘텐츠...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">소스 인사이트</label>
+          <input class="form-input" id="c-insight" placeholder="TikTok 1위 · 조회수 12M...">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">해시태그 영문 (쉼표 구분)</label>
+          <input class="form-input" id="c-hash-en" placeholder="#kfood, #koreanfood">
+        </div>
+        <div class="form-group">
+          <label class="form-label">해시태그 한글 (쉼표 구분)</label>
+          <input class="form-input" id="c-hash-ko" placeholder="#K푸드, #한국음식">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-section-label">채널별 현황</div>
+        <div class="ch-status-row">
+          <div class="ch-status-cell"><span class="ch-s-icon">📝</span><span class="ch-s-lbl">Blog</span><select class="ch-s-sel" id="c-ch-blog"><option value="todo">예정</option><option value="in_progress">진행중</option><option value="done">완료</option></select></div>
+          <div class="ch-status-cell"><span class="ch-s-icon">▶️</span><span class="ch-s-lbl">YouTube</span><select class="ch-s-sel" id="c-ch-youtube"><option value="todo">예정</option><option value="in_progress">진행중</option><option value="done">완료</option></select></div>
+          <div class="ch-status-cell"><span class="ch-s-icon">📸</span><span class="ch-s-lbl">Instagram</span><select class="ch-s-sel" id="c-ch-instagram"><option value="todo">예정</option><option value="in_progress">진행중</option><option value="done">완료</option></select></div>
+          <div class="ch-status-cell"><span class="ch-s-icon">🎵</span><span class="ch-s-lbl">TikTok</span><select class="ch-s-sel" id="c-ch-tiktok"><option value="todo">예정</option><option value="in_progress">진행중</option><option value="done">완료</option></select></div>
+          <div class="ch-status-cell"><span class="ch-s-icon">🐦</span><span class="ch-s-lbl">Twitter</span><select class="ch-s-sel" id="c-ch-twitter"><option value="todo">예정</option><option value="in_progress">진행중</option><option value="done">완료</option></select></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">기획 메모</label>
+        <textarea class="form-textarea" id="c-memo" placeholder="콘텐츠 방향, 참고 레퍼런스, 주의사항..."></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeModal('content')">취소</button>
+      <button class="btn-primary" onclick="saveContent()">＋ 주제 추가</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── 촬영 기록 추가 모달 ── -->
+<div class="modal-overlay" id="modal-archive-overlay" onclick="if(event.target===this)closeModal('archive')">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">🎬 새 촬영 기록 추가</div>
+      <button class="modal-close" onclick="closeModal('archive')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">식당명 (한글)</label>
+          <input class="form-input" id="a-name-ko" placeholder="광장시장 순희네 빈대떡">
+        </div>
+        <div class="form-group">
+          <label class="form-label">식당명 (영문)</label>
+          <input class="form-input" id="a-name-en" placeholder="Gwangjang Market...">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">방문 날짜</label>
+          <input class="form-input" id="a-date" type="date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">촬영 상태</label>
+          <select class="form-select" id="a-status">
+            <option value="unedited">📦 미편집</option>
+            <option value="editing">⏳ 편집중</option>
+            <option value="done">✅ 촬영완료</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">도시</label>
+          <input class="form-input" id="a-city" placeholder="서울">
+        </div>
+        <div class="form-group">
+          <label class="form-label">지역 / 구</label>
+          <input class="form-input" id="a-area" placeholder="광장시장, 종로구">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">촬영 음식 (쉼표 구분)</label>
+          <input class="form-input" id="a-foods" placeholder="떡볶이, 순대, 어묵">
+        </div>
+        <div class="form-group">
+          <label class="form-label">카테고리</label>
+          <select class="form-select" id="a-category">
+            <option value="길거리음식">길거리음식</option>
+            <option value="시장">시장</option>
+            <option value="한식당">한식당</option>
+            <option value="치킨">치킨</option>
+            <option value="팝업">팝업</option>
+            <option value="기타">기타</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">연결 콘텐츠 주제</label>
+          <select class="form-select" id="a-topic">
+            <option value="">⚪ 미연결</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">팀원 (쉼표 구분)</label>
+          <input class="form-input" id="a-team" placeholder="솔, 지수, 민준">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">메모</label>
+        <textarea class="form-textarea" id="a-memo" placeholder="촬영 상황, 특이사항, 후속 작업..."></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeModal('archive')">취소</button>
+      <button class="btn-primary" onclick="saveArchive()">＋ 기록 추가</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

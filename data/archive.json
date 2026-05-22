@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "updated": "2026-05-22",
+    "total": 7
+  },
+  "stats": {
+    "total": 7,
+    "this_month": 4,
+    "linked": 5,
+    "pending": 2
+  },
+  "records": [
+    {
+      "id": 1,
+      "restaurant": "광장시장 순희네 빈대떡",
+      "restaurant_en": "Gwangjang Market — Bindaetteok",
+      "date": "2026-05-20",
+      "location": { "city": "서울", "district": "종로구", "area": "광장시장" },
+      "foods": ["빈대떡", "마약김밥", "순대"],
+      "shoot_status": "done",
+      "linked_topic_id": 4,
+      "linked_topic": "김밥은 초밥이 아니다",
+      "team": ["솔"],
+      "memo": "마약김밥 촬영 완료. 빈대떡 ASMR 클립 별도 편집 필요.",
+      "category": "시장"
+    },
+    {
+      "id": 2,
+      "restaurant": "신당동 즉석떡볶이 골목",
+      "restaurant_en": "Sindang-dong Tteokbokki Alley",
+      "date": "2026-05-19",
+      "location": { "city": "서울", "district": "중구", "area": "신당동" },
+      "foods": ["즉석떡볶이", "순대", "어묵"],
+      "shoot_status": "editing",
+      "linked_topic_id": 1,
+      "linked_topic": "외국인이 떡볶이에 중독되는 이유",
+      "team": ["솔", "지수"],
+      "memo": "3가지 맵기 단계 비교 영상 촬영 완료. 자막 편집 진행 중.",
+      "category": "길거리음식"
+    },
+    {
+      "id": 3,
+      "restaurant": "교촌치킨 홍대점",
+      "restaurant_en": "Kyochon Chicken — Hongdae",
+      "date": "2026-05-17",
+      "location": { "city": "서울", "district": "마포구", "area": "홍대" },
+      "foods": ["허니콤보", "레드콤보", "간장치킨"],
+      "shoot_status": "done",
+      "linked_topic_id": 2,
+      "linked_topic": "한국 치킨 vs 미국 치킨",
+      "team": ["솔"],
+      "memo": "외국인 블라인드 테스트 포함. 소스 3종 비교 컷 별도 촬영 완료.",
+      "category": "치킨"
+    },
+    {
+      "id": 4,
+      "restaurant": "명동 불닭볶음면 팝업",
+      "restaurant_en": "Myeongdong Buldak Pop-up",
+      "date": "2026-05-15",
+      "location": { "city": "서울", "district": "중구", "area": "명동" },
+      "foods": ["불닭볶음면", "불닭 핫도그", "불닭 치즈볼"],
+      "shoot_status": "done",
+      "linked_topic_id": 5,
+      "linked_topic": "불닭 세계 챌린지",
+      "team": ["솔", "민준"],
+      "memo": "팝업 한정 메뉴 전부 촬영. 외국인 도전 반응 컷 다수 확보.",
+      "category": "팝업"
+    },
+    {
+      "id": 5,
+      "restaurant": "서울역 씨앗호떡 노점",
+      "restaurant_en": "Seoul Station Hotteok Street Cart",
+      "date": "2026-05-14",
+      "location": { "city": "서울", "district": "용산구", "area": "서울역" },
+      "foods": ["씨앗호떡", "야채호떡"],
+      "shoot_status": "editing",
+      "linked_topic_id": 3,
+      "linked_topic": "호떡 — 겨울 간식의 글로벌 바이럴",
+      "team": ["지수"],
+      "memo": "ASMR 사운드 품질 우수. 겨울 감성 B-roll 추가 촬영 예정.",
+      "category": "길거리음식"
+    },
+    {
+      "id": 6,
+      "restaurant": "이태원 비빔밥 체험관",
+      "restaurant_en": "Itaewon Bibimbap Experience",
+      "date": "2026-05-10",
+      "location": { "city": "서울", "district": "용산구", "area": "이태원" },
+      "foods": ["돌솥비빔밥", "나물비빔밥"],
+      "shoot_status": "unedited",
+      "linked_topic_id": null,
+      "linked_topic": null,
+      "team": ["민준"],
+      "memo": "외국인 셀프 비빔밥 만들기 체험 포맷. 콘텐츠 주제 미연결 — 기획 필요.",
+      "category": "한식당"
+    },
+    {
+      "id": 7,
+      "restaurant": "부산 자갈치시장",
+      "restaurant_en": "Busan Jagalchi Market",
+      "date": "2026-05-05",
+      "location": { "city": "부산", "district": "중구", "area": "자갈치시장" },
+      "foods": ["회", "조개구이", "꽃게탕"],
+      "shoot_status": "unedited",
+      "linked_topic_id": null,
+      "linked_topic": null,
+      "team": ["솔", "지수", "민준"],
+      "memo": "부산 원정 촬영. 해산물 ASMR 소재 풍부. 별도 주제 기획 필요.",
+      "category": "시장"
+    }
+  ]
+}
