@@ -245,8 +245,12 @@ body {
 .history-bar {
   display: flex; align-items: center; gap: 10px;
   background: var(--white); border: 1.5px solid var(--gray-100);
-  border-radius: 12px; padding: 10px 16px; margin-bottom: 16px;
+  border-radius: 12px; padding: 12px 18px; margin-bottom: 20px;
   flex-wrap: wrap;
+}
+.history-update-info {
+  font-size: 11px; color: var(--text-muted); white-space: nowrap;
+  margin-left: 4px; opacity: 0.7;
 }
 .history-bar-label { font-size: 12px; font-weight: 700; color: var(--text-muted); white-space: nowrap; }
 .history-select {
@@ -525,7 +529,7 @@ body {
 .platform-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 20px;
 }
 .platform-grid.single { grid-template-columns: 1fr; }
 #platform-youtube { grid-column: 1 / -1; }
@@ -533,10 +537,10 @@ body {
   background: var(--white);
   border: 1.5px solid var(--gray-100);
   border-radius: 16px;
-  padding: 20px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 18px;
   transition: box-shadow 0.2s;
 }
 .platform-card:hover { box-shadow: 0 4px 20px rgba(77,36,117,0.07); }
@@ -905,7 +909,7 @@ body {
 .page { display: none; }
 .page.active { display: contents; }
 .page-block { display: none; }
-.page-block.active { display: flex; flex-direction: column; gap: 24px; }
+.page-block.active { display: flex; flex-direction: column; gap: 36px; }
 
 /* ══════════════════════════════
    COMING SOON
@@ -1323,6 +1327,7 @@ body {
               <option value="current">현재 주 (최신)</option>
             </select>
             <span class="history-badge" id="history-badge">—</span>
+            <span class="history-update-info">🔄 매주 월요일 09:00 자동 업데이트</span>
             <div class="history-view-tabs">
               <button class="hv-tab active" onclick="switchHistoryView('weekly', this)">주별</button>
               <button class="hv-tab" onclick="switchHistoryView('monthly', this)">월별</button>
