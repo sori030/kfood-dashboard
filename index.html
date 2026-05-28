@@ -1301,9 +1301,14 @@ body {
   /* 업데이트 날짜 숨김 */
   .updated-tag { display: none; }
 
-  /* 검색창 축소 */
-  .search-wrap { max-width: 160px; }
-  .search-wrap input { font-size: 13px; padding: 8px 10px 8px 30px; }
+  /* 기존 icon-btn 2개 모두 숨김 (mobile-panel-btn으로 대체) */
+  .topbar-actions .icon-btn { display: none; }
+
+  /* 데이터 갱신 버튼 축소 */
+  .update-btn { padding: 7px 10px; font-size: 12px; gap: 3px; }
+
+  /* 검색창 숨김 (모바일에서 공간 부족) */
+  .search-wrap { display: none; }
 
   /* 앱 레이아웃 */
   .app { height: 100dvh; overflow: hidden; }
@@ -1340,8 +1345,9 @@ body {
   }
 
   /* 히어로 배너 폰트 축소 */
-  .hero-title { font-size: 20px !important; }
+  .hero-title { font-size: 20px !important; line-height: 1.3 !important; word-break: keep-all; }
   .hero-eyebrow { font-size: 11px !important; }
+  .hero-banner { padding: 24px 20px !important; }
 
   /* 퀵스탯 2열 */
   .quick-stats {
@@ -1349,6 +1355,8 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
+  .qstat-val { font-size: 18px !important; }
+  .qstat-lbl { font-size: 11px !important; word-break: keep-all; }
 
   /* 플랫폼 카드 1열 */
   .platform-grid {
