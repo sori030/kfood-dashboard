@@ -1,0 +1,20 @@
+{
+  "weeks": [
+    {
+      "key": "2026-W21",
+      "label": "2026년 5월 4주차 (W21)",
+      "date_range": "2026-05-18 ~ 2026-05-24",
+      "month": "2026-05",
+      "file": "data/history/2026-W21.json",
+      "top_food": "떡볶이",
+      "total_posts": 1089
+    }
+  ],
+  "months": [
+    {
+      "key": "2026-05",
+      "label": "2026년 5월",
+      "weeks": ["2026-W21"]
+    }
+  ]
+}

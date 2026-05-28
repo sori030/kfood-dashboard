@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K푸드 대시보드 기획서</title>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', sans-serif;
+    background: #0f0a1a;
+    color: #FCF7EF;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #FCF7EF;
+    letter-spacing: -0.5px;
+  }
+  .header p {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #C8DDDE;
+    opacity: 0.7;
+  }
+  .badge {
+    display: inline-block;
+    background: #4D2475;
+    color: #FCF7EF;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* 루트 노드 */
+  .tree-root {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0;
+  }
+  .root-node {
+    background: #4D2475;
+    border: 2px solid #7a3db5;
+    border-radius: 16px;
+    padding: 20px 40px;
+    text-align: center;
+    position: relative;
+  }
+  .root-node h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #FCF7EF;
+  }
+  .root-node p {
+    font-size: 12px;
+    color: #C8DDDE;
+    margin-top: 4px;
+  }
+
+  /* 수직 연결선 */
+  .connector-v {
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, #4D2475, #6b3fa0);
+    margin: 0 auto;
+  }
+
+  /* 수평 연결바 */
+  .h-bar-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0;
+  }
+  .h-bar {
+    border-top: 2px solid #6b3fa0;
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+  }
+  .h-bar::before, .h-bar::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+  }
+
+  /* 3개 모듈 컬럼 */
+  .modules-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .module-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .connector-down {
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, #6b3fa0, #4D2475);
+    margin: 0 auto;
+  }
+
+  /* 모듈 헤더 */
+  .module-header {
+    border-radius: 12px;
+    padding: 16px 20px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+  }
+  .module-header.m1 { background: #2d1654; border: 1.5px solid #4D2475; }
+  .module-header.m2 { background: #1a2a2a; border: 1.5px solid #C8DDDE; }
+  .module-header.m3 { background: #1a2214; border: 1.5px solid #5a8a4a; }
+
+  .module-num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+    opacity: 0.6;
+  }
+  .module-header.m1 .module-num { color: #a06de0; }
+  .module-header.m2 .module-num { color: #C8DDDE; }
+  .module-header.m3 .module-num { color: #7ab86a; }
+
+  .module-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #FCF7EF;
+    line-height: 1.4;
+  }
+  .module-sub {
+    font-size: 11px;
+    margin-top: 4px;
+    opacity: 0.6;
+  }
+  .module-header.m1 .module-sub { color: #C8DDDE; }
+  .module-header.m2 .module-sub { color: #C8DDDE; }
+  .module-header.m3 .module-sub { color: #7ab86a; }
+
+  /* 기능 카드들 */
+  .features-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .feature-card {
+    border-radius: 10px;
+    padding: 12px 14px;
+    position: relative;
+  }
+  .feature-card.m1 { background: #1e0e38; border: 1px solid #3d1a6b; }
+  .feature-card.m2 { background: #101e1e; border: 1px solid #2a4a4a; }
+  .feature-card.m3 { background: #101a08; border: 1px solid #2a4a1a; }
+
+  .feature-card h4 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #FCF7EF;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .feature-card h4 .icon {
+    font-size: 14px;
+  }
+
+  .feature-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  .tag.m1 { background: #4D2475; color: #e0c8ff; }
+  .tag.m2 { background: #1a4040; color: #C8DDDE; }
+  .tag.m3 { background: #1a3a0a; color: #a0d890; }
+  .tag.gray { background: #2a2a2a; color: #888; }
+
+  /* 하단 정보 섹션 */
+  .info-section {
+    max-width: 1100px;
+    margin: 60px auto 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 0 20px;
+  }
+
+  .info-card {
+    background: #1a1225;
+    border: 1px solid #3d2a5a;
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .info-card h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #a06de0;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .info-item:last-child { margin-bottom: 0; }
+  .info-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4D2475;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .info-item p {
+    font-size: 13px;
+    color: #C8DDDE;
+    line-height: 1.6;
+  }
+  .info-item span {
+    color: #FCF7EF;
+    font-weight: 600;
+  }
+
+  /* 업데이트 스케줄 */
+  .schedule-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding: 10px 14px;
+    background: #0f0a1a;
+    border-radius: 8px;
+  }
+  .schedule-bar:last-child { margin-bottom: 0; }
+  .s-label {
+    font-size: 11px;
+    color: #888;
+    width: 60px;
+    flex-shrink: 0;
+  }
+  .s-action {
+    font-size: 12px;
+    color: #FCF7EF;
+    font-weight: 500;
+    flex: 1;
+  }
+  .s-cost {
+    font-size: 11px;
+    color: #a06de0;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* 구분선 */
+  .section-divider {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-divider span {
+    font-size: 11px;
+    color: #4D2475;
+    white-space: nowrap;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .section-divider::before, .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #2a1a3a;
+  }
+
+  /* 로드맵 */
+  .roadmap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .roadmap-item {
+    background: #1a1225;
+    border: 1px solid #2a1a3a;
+    border-radius: 10px;
+    padding: 16px;
+    position: relative;
+  }
+  .roadmap-item.active {
+    border-color: #4D2475;
+  }
+  .phase-badge {
+    font-size: 10px;
+    font-weight: 700;
+    color: #4D2475;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .roadmap-item.active .phase-badge {
+    color: #a06de0;
+  }
+  .roadmap-item h4 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #FCF7EF;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .roadmap-item ul {
+    list-style: none;
+    padding: 0;
+  }
+  .roadmap-item ul li {
+    font-size: 11px;
+    color: #888;
+    padding: 3px 0;
+    padding-left: 10px;
+    position: relative;
+  }
+  .roadmap-item ul li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: #4D2475;
+  }
+  .now-label {
+    position: absolute;
+    top: -10px;
+    right: 12px;
+    background: #4D2475;
+    color: #FCF7EF;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+
+  /* 트리 연결선 SVG 오버레이용 */
+  .tree-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="badge">Dashboard Blueprint v1.0</div>
+  <h1>K푸드 SNS 트렌드 대시보드 기획</h1>
+  <p>내부 팀용 · GitHub 배포 · 콘텐츠 제작 지원 시스템</p>
+</div>
+
+<!-- 루트 노드 -->
+<div class="tree-wrapper">
+  <div class="tree-root">
+    <div class="root-node">
+      <h2>🌏 K푸드 SNS 트렌드 대시보드</h2>
+      <p>리소스 수집 → 인사이트 분석 → 콘텐츠 제작 파이프라인</p>
+    </div>
+  </div>
+
+  <div class="connector-v"></div>
+
+  <!-- 수평 연결선 시각화 -->
+  <div style="display:flex; justify-content:center; margin-bottom:0;">
+    <div style="width:72%; border-top:2px solid #3d2a5a; position:relative;">
+      <div style="position:absolute; left:16.5%; top:-1px; width:2px; height:40px; background:#3d2a5a;"></div>
+      <div style="position:absolute; left:50%; top:-1px; width:2px; height:40px; background:#3d2a5a; transform:translateX(-50%);"></div>
+      <div style="position:absolute; right:16.5%; top:-1px; width:2px; height:40px; background:#3d2a5a;"></div>
+    </div>
+  </div>
+
+  <!-- 3개 모듈 -->
+  <div class="modules-row">
+
+    <!-- Module 1 -->
+    <div class="module-column">
+      <div class="module-header m1" style="margin-top:40px;">
+        <div class="module-num">MODULE 01</div>
+        <div class="module-title">인사이트 + 레퍼런스 수집</div>
+        <div class="module-sub">SNS 크롤링 & 트렌드 분석</div>
+      </div>
+      <div class="features-list">
+
+        <div class="feature-card m1">
+          <h4><span class="icon">📡</span> SNS 자동 수집</h4>
+          <div class="feature-tags">
+            <span class="tag m1">TikTok</span>
+            <span class="tag m1">Instagram</span>
+            <span class="tag m1">Reddit</span>
+            <span class="tag m1">Twitter/X</span>
+          </div>
+        </div>
+
+        <div class="feature-card m1">
+          <h4><span class="icon">🔥</span> 트렌딩 키워드/해시태그</h4>
+          <div class="feature-tags">
+            <span class="tag m1">상위 20개 해시태그</span>
+            <span class="tag m1">언급량 수치화</span>
+          </div>
+        </div>
+
+        <div class="feature-card m1">
+          <h4><span class="icon">🍜</span> 음식별 인기 랭킹</h4>
+          <div class="feature-tags">
+            <span class="tag m1">주간 TOP10</span>
+            <span class="tag m1">플랫폼별 순위</span>
+          </div>
+        </div>
+
+        <div class="feature-card m1">
+          <h4><span class="icon">🔗</span> 바이럴 콘텐츠 링크</h4>
+          <div class="feature-tags">
+            <span class="tag m1">조회수 기준</span>
+            <span class="tag m1">직접 링크 저장</span>
+            <span class="tag m1">썸네일</span>
+          </div>
+        </div>
+
+        <div class="feature-card m1">
+          <h4><span class="icon">🌍</span> 국가·지역별 반응</h4>
+          <div class="feature-tags">
+            <span class="tag m1">미국/유럽/동남아</span>
+            <span class="tag m1">감성 분석</span>
+          </div>
+        </div>
+
+        <div class="feature-card m1">
+          <h4><span class="icon">🕐</span> 업데이트 기록</h4>
+          <div class="feature-tags">
+            <span class="tag m1">주 1회</span>
+            <span class="tag gray">마지막 수집일 표시</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Module 2 -->
+    <div class="module-column">
+      <div class="module-header m2" style="margin-top:40px;">
+        <div class="module-num">MODULE 02</div>
+        <div class="module-title">콘텐츠 기획</div>
+        <div class="module-sub">원소스 멀티유즈 제작 시스템</div>
+      </div>
+      <div class="features-list">
+
+        <div class="feature-card m2">
+          <h4><span class="icon">💡</span> 인사이트 → 콘텐츠 주제</h4>
+          <div class="feature-tags">
+            <span class="tag m2">트렌드 기반 자동 제안</span>
+          </div>
+        </div>
+
+        <div class="feature-card m2">
+          <h4><span class="icon">📋</span> 채널별 포맷 변환</h4>
+          <div class="feature-tags">
+            <span class="tag m2">블로그</span>
+            <span class="tag m2">유튜브</span>
+            <span class="tag m2">인스타그램</span>
+            <span class="tag m2">틱톡</span>
+            <span class="tag m2">트위터</span>
+          </div>
+        </div>
+
+        <div class="feature-card m2">
+          <h4><span class="icon">📅</span> 콘텐츠 캘린더</h4>
+          <div class="feature-tags">
+            <span class="tag m2">주간 업로드 스케줄</span>
+            <span class="tag m2">완료 체크</span>
+          </div>
+        </div>
+
+        <div class="feature-card m2">
+          <h4><span class="icon">✏️</span> 제목 + 해시태그 추천</h4>
+          <div class="feature-tags">
+            <span class="tag m2">채널별 최적화</span>
+            <span class="tag m2">영문/한글</span>
+          </div>
+        </div>
+
+        <div class="feature-card m2">
+          <h4><span class="icon">📝</span> 원고 초안 생성</h4>
+          <div class="feature-tags">
+            <span class="tag m2">외국인 타겟</span>
+            <span class="tag m2">문화 설명 포함</span>
+          </div>
+        </div>
+
+        <div class="feature-card m2">
+          <h4><span class="icon">♻️</span> 원소스 멀티유즈 추적</h4>
+          <div class="feature-tags">
+            <span class="tag m2">1개 주제</span>
+            <span class="tag gray">→ 5채널 파생</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Module 3 -->
+    <div class="module-column">
+      <div class="module-header m3" style="margin-top:40px;">
+        <div class="module-num">MODULE 03</div>
+        <div class="module-title">촬영 기록 아카이브</div>
+        <div class="module-sub">방문 식당 & 현장 데이터 관리</div>
+      </div>
+      <div class="features-list">
+
+        <div class="feature-card m3">
+          <h4><span class="icon">📍</span> 식당 정보 등록</h4>
+          <div class="feature-tags">
+            <span class="tag m3">상호명</span>
+            <span class="tag m3">주소</span>
+            <span class="tag m3">지역</span>
+            <span class="tag m3">카테고리</span>
+          </div>
+        </div>
+
+        <div class="feature-card m3">
+          <h4><span class="icon">🍽️</span> 메뉴 정보</h4>
+          <div class="feature-tags">
+            <span class="tag m3">메뉴명(한/영)</span>
+            <span class="tag m3">가격</span>
+            <span class="tag m3">추천도</span>
+          </div>
+        </div>
+
+        <div class="feature-card m3">
+          <h4><span class="icon">🗺️</span> 지역 정보</h4>
+          <div class="feature-tags">
+            <span class="tag m3">서울 구별</span>
+            <span class="tag m3">지역 특성</span>
+            <span class="tag m3">교통</span>
+          </div>
+        </div>
+
+        <div class="feature-card m3">
+          <h4><span class="icon">🎬</span> 촬영 콘텐츠 연결</h4>
+          <div class="feature-tags">
+            <span class="tag m3">사진/영상 링크</span>
+            <span class="tag m3">업로드 상태</span>
+          </div>
+        </div>
+
+        <div class="feature-card m3">
+          <h4><span class="icon">⭐</span> 평가 & 메모</h4>
+          <div class="feature-tags">
+            <span class="tag m3">콘텐츠 적합도</span>
+            <span class="tag m3">재방문 여부</span>
+          </div>
+        </div>
+
+        <div class="feature-card m3">
+          <h4><span class="icon">🔗</span> 콘텐츠 기획 연결</h4>
+          <div class="feature-tags">
+            <span class="tag m3">Module 02 연동</span>
+            <span class="tag gray">기록 → 콘텐츠화</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /modules-row -->
+</div><!-- /tree-wrapper -->
+
+<!-- 구분선 -->
+<div class="section-divider">
+  <span>운영 전략</span>
+</div>
+
+<!-- 하단 정보 -->
+<div class="info-section">
+
+  <div class="info-card">
+    <h3>📊 업데이트 스케줄 (주 1회)</h3>
+    <div class="schedule-bar">
+      <span class="s-label">매주 월요일</span>
+      <span class="s-action">Xpoz MCP로 SNS 5개 채널 수집 실행</span>
+      <span class="s-cost">~25 크레딧</span>
+    </div>
+    <div class="schedule-bar">
+      <span class="s-label">수집 직후</span>
+      <span class="s-action">인사이트 정리 → 대시보드 데이터 갱신</span>
+      <span class="s-cost">자동</span>
+    </div>
+    <div class="schedule-bar">
+      <span class="s-label">월요일 오후</span>
+      <span class="s-action">주간 콘텐츠 기획 → 채널별 초안 생성</span>
+      <span class="s-cost">AI</span>
+    </div>
+    <div class="schedule-bar">
+      <span class="s-label">크레딧 예측</span>
+      <span class="s-action">5,000 크레딧 ÷ 25 = 약 200회 → 약 4년치</span>
+      <span class="s-cost">여유 충분</span>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <h3>🚀 GitHub 배포 구조</h3>
+    <div class="info-item">
+      <div class="info-dot"></div>
+      <p><span>GitHub Pages</span>로 정적 배포 → URL 공유만으로 팀원 접근</p>
+    </div>
+    <div class="info-item">
+      <div class="info-dot"></div>
+      <p><span>비공개 저장소</span>(Private Repo) → 내부 관리용 보안 유지</p>
+    </div>
+    <div class="info-item">
+      <div class="info-dot"></div>
+      <p>HTML + CSS + JS만 사용 → <span>서버 불필요</span>, 무료 운영</p>
+    </div>
+    <div class="info-item">
+      <div class="info-dot"></div>
+      <p>JSON 파일로 데이터 분리 → <span>데이터만 교체</span>해서 화면 갱신</p>
+    </div>
+    <div class="info-item">
+      <div class="info-dot"></div>
+      <p>팀원은 <span>GitHub Collaborator</span> 추가 → 편집 권한 부여</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- 구분선 -->
+<div class="section-divider">
+  <span>개발 로드맵</span>
+</div>
+
+<!-- 로드맵 -->
+<div class="roadmap">
+
+  <div class="roadmap-item active">
+    <div class="now-label">지금 여기</div>
+    <div class="phase-badge">PHASE 1</div>
+    <h4>기초 대시보드<br>구축</h4>
+    <ul>
+      <li>SNS 인사이트 뷰</li>
+      <li>플랫폼별 섹션</li>
+      <li>출처 링크 포함</li>
+      <li>데이터 수동 업데이트</li>
+    </ul>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="phase-badge">PHASE 2</div>
+    <h4>콘텐츠 기획<br>템플릿 추가</h4>
+    <ul>
+      <li>콘텐츠 캘린더</li>
+      <li>채널별 포맷</li>
+      <li>원소스 멀티유즈 추적</li>
+      <li>해시태그 추천</li>
+    </ul>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="phase-badge">PHASE 3</div>
+    <h4>촬영 기록<br>아카이브 추가</h4>
+    <ul>
+      <li>식당 DB 입력폼</li>
+      <li>지역/카테고리 필터</li>
+      <li>콘텐츠 연결 기능</li>
+      <li>지도 연동</li>
+    </ul>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="phase-badge">PHASE 4</div>
+    <h4>자동화 + 고도화</h4>
+    <ul>
+      <li>GitHub Actions 자동 수집</li>
+      <li>YouTube API 연결</li>
+      <li>트렌드 차트/그래프</li>
+      <li>팀 협업 기능</li>
+    </ul>
+  </div>
+
+</div>
+
+<div style="text-align:center; margin: 60px 0 20px; font-size:12px; color:#444;">
+  K푸드 플랫폼 내부 기획서 · 2026.05 · 업데이트: 주 1회
+</div>
+
+</body>
+</html>

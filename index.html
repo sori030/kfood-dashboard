@@ -241,6 +241,65 @@ body {
 /* ══════════════════════════════
    HERO BANNER
 ══════════════════════════════ */
+/* ── 주차/월 선택기 ── */
+.history-bar {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--white); border: 1.5px solid var(--gray-100);
+  border-radius: 12px; padding: 10px 16px; margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.history-bar-label { font-size: 12px; font-weight: 700; color: var(--text-muted); white-space: nowrap; }
+.history-select {
+  font-family: inherit; font-size: 13px; font-weight: 600; color: var(--text);
+  border: 1.5px solid var(--gray-200); border-radius: 8px;
+  padding: 6px 10px; background: var(--gray-50); cursor: pointer;
+  outline: none; transition: border-color 0.15s;
+}
+.history-select:focus { border-color: var(--purple); }
+.history-view-tabs { display: flex; gap: 4px; margin-left: auto; }
+.hv-tab {
+  font-size: 12px; font-weight: 700; padding: 6px 14px;
+  border-radius: 8px; border: 1.5px solid var(--gray-200);
+  background: none; cursor: pointer; color: var(--text-muted);
+  transition: all 0.15s;
+}
+.hv-tab.active { background: var(--purple); color: #fff; border-color: var(--purple); }
+.history-badge {
+  font-size: 11px; font-weight: 700; color: var(--purple);
+  background: var(--purple-pale); border-radius: 20px; padding: 3px 10px;
+  white-space: nowrap;
+}
+
+/* ── 월별 요약 뷰 ── */
+.month-summary { display: none; flex-direction: column; gap: 16px; }
+.month-summary.active { display: flex; }
+.ms-month-block { background: var(--white); border: 1.5px solid var(--gray-100); border-radius: 14px; overflow: hidden; }
+.ms-month-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 20px; background: var(--purple-bg);
+  border-bottom: 1.5px solid var(--gray-100);
+}
+.ms-month-title { font-size: 15px; font-weight: 800; color: var(--text); }
+.ms-month-count { font-size: 12px; color: var(--text-muted); }
+.ms-week-row {
+  display: grid; grid-template-columns: 1fr 1fr 1fr auto;
+  align-items: center; gap: 12px;
+  padding: 12px 20px; border-bottom: 1px solid var(--gray-100);
+  cursor: pointer; transition: background 0.12s;
+}
+.ms-week-row:last-child { border-bottom: none; }
+.ms-week-row:hover { background: var(--purple-bg); }
+.ms-week-label { font-size: 13px; font-weight: 700; color: var(--text); }
+.ms-week-range { font-size: 11px; color: var(--text-muted); }
+.ms-week-top { font-size: 12px; color: var(--purple-mid); font-weight: 600; }
+.ms-week-posts { font-size: 12px; color: var(--text-muted); text-align: right; }
+.ms-week-btn {
+  font-size: 11px; font-weight: 700; color: var(--purple);
+  background: var(--purple-pale); border: none; border-radius: 6px;
+  padding: 4px 10px; cursor: pointer; white-space: nowrap;
+}
+.ms-week-btn:hover { background: var(--purple); color: #fff; }
+
 .hero-banner {
   background: linear-gradient(135deg, var(--purple) 0%, #7040AA 60%, #9B6CC8 100%);
   border-radius: 18px;
@@ -1257,6 +1316,25 @@ body {
         <!-- ── 인사이트 페이지 ── -->
         <div id="page-insights" class="page-block active">
 
+          <!-- 주차/월 선택기 -->
+          <div class="history-bar">
+            <span class="history-bar-label">📅 기간 선택</span>
+            <select class="history-select" id="week-select" onchange="loadWeekData(this.value)">
+              <option value="current">현재 주 (최신)</option>
+            </select>
+            <span class="history-badge" id="history-badge">—</span>
+            <div class="history-view-tabs">
+              <button class="hv-tab active" onclick="switchHistoryView('weekly', this)">주별</button>
+              <button class="hv-tab" onclick="switchHistoryView('monthly', this)">월별</button>
+            </div>
+          </div>
+
+          <!-- 월별 요약 (숨김 기본) -->
+          <div class="month-summary" id="month-summary"></div>
+
+          <!-- 주별 인사이트 콘텐츠 -->
+          <div id="weekly-view">
+
           <!-- 히어로 배너 -->
           <div class="hero-banner">
             <div class="hero-eyebrow">Weekly K-Food SNS Report · <span id="hero-week">—</span></div>
@@ -1419,6 +1497,8 @@ body {
             </div>
             <div id="references-wrap" style="background:var(--white);border:1.5px solid var(--gray-100);border-radius:14px;overflow:hidden;"></div>
           </div>
+
+          </div><!-- /weekly-view -->
 
         </div><!-- /page-insights -->
 
@@ -1892,215 +1972,248 @@ async function loadContentData() {
   } catch(e) { console.error('콘텐츠 로드 실패:', e); }
 }
 
+// ── 히스토리 인덱스 로드 ──
+async function loadHistoryIndex() {
+  try {
+    const res = await fetch('./data/history-index.json?t=' + Date.now());
+    const idx = await res.json();
+    window._historyIndex = idx;
+
+    // 주차 드롭다운 채우기
+    const sel = document.getElementById('week-select');
+    sel.innerHTML = '<option value="current">현재 주 (최신)</option>';
+    idx.weeks.slice().reverse().forEach(w => {
+      const opt = document.createElement('option');
+      opt.value = w.key;
+      opt.textContent = w.label;
+      sel.appendChild(opt);
+    });
+
+    // 월별 요약 렌더
+    renderMonthlySummary(idx);
+
+    // 배지 업데이트
+    document.getElementById('history-badge').textContent =
+      `총 ${idx.weeks.length}주 · ${idx.months.length}개월 누적`;
+  } catch(e) { console.warn('히스토리 인덱스 없음:', e); }
+}
+
+// ── 특정 주차 데이터 로드 ──
+async function loadWeekData(key) {
+  if (key === 'current') {
+    await loadData();
+    return;
+  }
+  const w = (window._historyIndex?.weeks || []).find(x => x.key === key);
+  if (!w) return;
+  try {
+    const res = await fetch('./' + w.file + '?t=' + Date.now());
+    const d = await res.json();
+    renderInsightsData(d);
+    document.getElementById('history-badge').textContent = w.date_range;
+  } catch(e) { console.error('주차 데이터 로드 실패:', e); }
+}
+
+// ── 주별/월별 뷰 전환 ──
+function switchHistoryView(mode, el) {
+  document.querySelectorAll('.hv-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const weekly = document.getElementById('weekly-view');
+  const monthly = document.getElementById('month-summary');
+  if (mode === 'monthly') {
+    weekly.style.display = 'none';
+    monthly.classList.add('active');
+  } else {
+    weekly.style.display = '';
+    monthly.classList.remove('active');
+  }
+}
+
+// ── 월별 요약 렌더 ──
+function renderMonthlySummary(idx) {
+  const el = document.getElementById('month-summary');
+  if (!idx.months.length) { el.innerHTML = '<div style="padding:24px;color:var(--text-muted);text-align:center;">누적 데이터가 없습니다</div>'; return; }
+  el.innerHTML = idx.months.map(m => {
+    const weeks = (idx.weeks || []).filter(w => m.weeks.includes(w.key));
+    return `<div class="ms-month-block">
+      <div class="ms-month-head">
+        <div class="ms-month-title">📅 ${m.label}</div>
+        <div class="ms-month-count">${weeks.length}주 수집</div>
+      </div>
+      ${weeks.map(w => `
+        <div class="ms-week-row" onclick="document.getElementById('week-select').value='${w.key}'; switchHistoryView('weekly', document.querySelector('.hv-tab')); loadWeekData('${w.key}')">
+          <div>
+            <div class="ms-week-label">${w.label}</div>
+            <div class="ms-week-range">${w.date_range}</div>
+          </div>
+          <div class="ms-week-top">🏆 ${w.top_food}</div>
+          <div class="ms-week-posts">📊 ${w.total_posts.toLocaleString()}개 분석</div>
+          <button class="ms-week-btn">보기 →</button>
+        </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+// ── 인사이트 데이터 렌더 (공통) ──
+async function renderInsightsData(d) {
+  const m = d.meta;
+  document.getElementById('nav-updated').textContent = `업데이트: ${m.updated}`;
+  document.getElementById('stat-posts').textContent = m.total_posts_analyzed.toLocaleString();
+  document.getElementById('stat-week').textContent = m.week;
+  document.getElementById('stat-remain-num').textContent = m.credits_remaining.toLocaleString();
+  const weeksLeft = Math.floor(m.credits_remaining / 25);
+  document.getElementById('stat-duration').textContent = `약 ${weeksLeft}주`;
+
+  const top1 = d.trending_foods[0];
+  document.getElementById('hero-week').textContent = m.week;
+  document.getElementById('hero-top').textContent = `${top1.name} (${top1.name_ko})`;
+  document.getElementById('hero-posts').textContent = m.total_posts_analyzed.toLocaleString();
+
+  const usedPct = Math.round((m.credits_used / 5000) * 100);
+  document.getElementById('credit-pct').textContent = `${usedPct}% 사용`;
+  document.getElementById('credit-ratio').textContent = `${m.credits_used} / 5,000`;
+  document.getElementById('credit-fill').style.width = usedPct + '%';
+  document.getElementById('credit-note').textContent = `주 1회 기준 약 ${weeksLeft}주 사용 가능`;
+  document.getElementById('leg-used').textContent = m.credits_used;
+  document.getElementById('leg-remain').textContent = m.credits_remaining.toLocaleString();
+
+  const circumference = 2 * Math.PI * 45;
+  const offset = circumference * (1 - usedPct / 100);
+  const donutFill = document.getElementById('donut-fill');
+  donutFill.style.strokeDasharray = circumference;
+  setTimeout(() => { donutFill.style.strokeDashoffset = offset; }, 200);
+  document.getElementById('donut-label').textContent = usedPct + '%';
+
+  const pillMap = { TikTok: 'tiktok', Instagram: 'instagram', Reddit: 'reddit', Twitter: 'twitter', YouTube: 'youtube' };
+  document.getElementById('ranking-list').innerHTML = d.trending_foods.map(f => {
+    const cls = f.change.startsWith('+') ? 'up' : f.change === '0' ? 'same' : 'down';
+    const lbl = f.change === '0' ? '–' : f.change;
+    const pills = f.platforms.map(p => `<span class="pill pill-${pillMap[p]||''}">${p}</span>`).join('');
+    return `<div class="rank-row">
+      <div class="rank-num ${f.rank <= 3 ? 'top3' : ''}">${f.rank}</div>
+      <div>
+        <div class="rank-food-name">${f.name} ${pills}</div>
+        <div class="rank-food-ko">${f.name_ko}</div>
+      </div>
+      <div class="rank-bar-wrap">
+        <div class="rank-bar"><div class="rank-bar-fill" style="width:${f.score}%"></div></div>
+      </div>
+      <div class="rank-score">${f.score}</div>
+      <div class="rank-change ${cls}">${lbl}</div>
+    </div>`;
+  }).join('');
+
+  const pl = d.platforms;
+  document.getElementById('platform-tiktok').innerHTML    = renderPlatformCard(pl.tiktok,    'tiktok');
+  document.getElementById('platform-instagram').innerHTML = renderPlatformCard(pl.instagram,  'instagram');
+  document.getElementById('platform-reddit').innerHTML    = renderPlatformCard(pl.reddit,     'reddit');
+  document.getElementById('platform-twitter').innerHTML   = renderPlatformCard(pl.twitter,    'twitter');
+  document.getElementById('platform-youtube').innerHTML   = renderPlatformCard(pl.youtube,    'youtube');
+
+  const rt = d.realtime_report;
+  if (rt) {
+    document.getElementById('realtime-report-section').style.display = '';
+    document.getElementById('rt-title').textContent    = rt.title;
+    document.getElementById('rt-subtitle').textContent = rt.subtitle;
+    document.getElementById('rt-date').textContent     = rt.date;
+    document.getElementById('rt-viral-tbody').innerHTML = rt.viral_tiktok.map(v => `
+      <tr>
+        <td class="vt-rank">${v.rank}</td>
+        <td><div class="vt-title"><a href="${v.url}" target="_blank">${v.title} ↗</a></div>
+            <div class="vt-creator">${v.creator}</div>
+            ${v.note ? `<div class="vt-note">${v.note}</div>` : ''}</td>
+        <td><span class="vt-food-badge">${v.food}</span></td>
+        <td class="vt-metric">👁 ${v.views}</td>
+        <td class="vt-metric">❤️ ${v.likes}</td>
+      </tr>`).join('');
+    document.getElementById('rt-hot-foods').innerHTML = rt.hot_foods.map(f => `
+      <div class="hf-card">
+        <div class="hf-head"><div><div class="hf-name">${f.food}</div><div class="hf-name-en">${f.food_en}</div></div>
+        <div class="hf-platforms">${f.platforms.map(p => `<span class="hf-pill ${p}">${p}</span>`).join('')}</div></div>
+        <div class="hf-highlight"><a href="${f.highlight_url}" target="_blank">📌 ${f.highlight} ↗</a></div>
+        <div class="hf-insight">💡 ${f.insight}</div>
+      </div>`).join('');
+    document.getElementById('rt-geo').innerHTML = rt.geography.map(g => `
+      <div class="geo-card"><div class="geo-flag">${g.icon}</div><div>
+        <div class="geo-country">${g.country}</div>
+        <div class="geo-cities">${g.cities.join(' · ')}</div>
+        <div class="geo-trend">${g.content_trend}</div>
+      </div></div>`).join('');
+    document.getElementById('rt-fq').innerHTML = rt.foreigner_questions.map(fq => `
+      <div class="fq-item"><div style="flex:1;">
+        <div class="fq-q">${fq.q}</div>
+        <div class="fq-meta"><span class="fq-src">출처: <a href="${fq.source_url}" target="_blank">${fq.source} ↗</a></span>
+        ${fq.replies ? `<span class="fq-replies">댓글 ${fq.replies}개</span>` : ''}</div>
+      </div><div class="fq-opp">💡 ${fq.opportunity}</div></div>`).join('');
+    document.getElementById('rt-market').innerHTML = rt.market_data.map(mk => `
+      <div class="mkt-card"><div class="mkt-val">${mk.value}</div><div class="mkt-stat">${mk.stat}</div>
+        <div class="mkt-detail">${mk.detail}</div>
+        <div class="mkt-src"><a href="${mk.source_url}" target="_blank">📌 ${mk.source} ↗</a></div>
+      </div>`).join('');
+    document.getElementById('rt-barriers').innerHTML = rt.entry_barriers.map(b => `
+      <div class="barrier-item"><div class="barrier-prob">${b.barrier}</div><div class="barrier-sol">${b.content_solution}</div></div>`).join('');
+  }
+
+  const refPillMap = { TikTok: 'tiktok', Instagram: 'instagram', Reddit: 'reddit', 'Twitter/X': 'twitter', YouTube: 'youtube' };
+  document.getElementById('ref-date').textContent = m.collection_date || m.updated;
+  if (d.references && d.references.length) {
+    document.getElementById('references-wrap').innerHTML = `
+      <table class="ref-table">
+        <thead><tr><th>#</th><th>콘텐츠</th><th>플랫폼</th><th>지표</th><th>음식</th><th>유형</th><th>날짜</th></tr></thead>
+        <tbody>${d.references.map(r => `
+          <tr>
+            <td style="color:var(--text-light);font-size:13px;">${r.id}</td>
+            <td><div class="ref-ttl"><a href="${r.url}" target="_blank">${r.title} ↗</a></div>
+                <div class="ref-creator">${r.creator}</div></td>
+            <td><span class="ref-pill ${refPillMap[r.platform]||''}">${r.platform}</span></td>
+            <td class="ref-metrics">${r.metrics}</td>
+            <td class="ref-food">${r.food_topic}</td>
+            <td class="ref-type">${r.content_type}</td>
+            <td style="font-size:13px;color:var(--text-light);white-space:nowrap;">${r.date}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`;
+  }
+
+  const miniData = [
+    { key: 'tiktok',    icon: '🎵', name: 'TikTok',    count: pl.tiktok.posts_analyzed },
+    { key: 'instagram', icon: '📸', name: 'Instagram', count: pl.instagram.posts_analyzed },
+    { key: 'reddit',    icon: '🔴', name: 'Reddit',    count: pl.reddit.posts_analyzed },
+    { key: 'twitter',   icon: '🐦', name: 'Twitter/X', count: pl.twitter.posts_analyzed },
+    { key: 'youtube',   icon: '▶️', name: 'YouTube',   count: pl.youtube.posts_analyzed },
+  ];
+  const apiLabel = { tiktok: 'Xpoz MCP', instagram: 'Xpoz MCP', reddit: 'Xpoz MCP', twitter: 'Xpoz MCP', youtube: 'YouTube API' };
+  document.getElementById('mini-stats').innerHTML = miniData.map(ms =>
+    `<div class="mini-stat-row">
+      <div class="mini-stat-left"><div class="mini-icon ${ms.key}">${ms.icon}</div>
+        <div><div class="mini-name">${ms.name}</div><div class="mini-count">${apiLabel[ms.key]}</div></div>
+      </div>
+      <div class="mini-stat-val">${ms.count}</div>
+    </div>`).join('');
+
+  document.getElementById('sentiment-list').innerHTML = d.regional_sentiment.map(r =>
+    `<div class="sentiment-row">
+      <div class="s-region">${r.region}</div>
+      <div class="s-bars">
+        <div class="s-pos" style="flex:${r.positive}"></div>
+        <div class="s-neu" style="flex:${r.neutral}"></div>
+        <div class="s-neg" style="flex:${r.negative}"></div>
+      </div>
+      <div class="s-pct">${r.positive}%</div>
+    </div>`).join('');
+}
+
 // ── 메인 로드 ──
 async function loadData() {
   try {
     const res = await fetch('./data/insights.json?t=' + Date.now());
     const d = await res.json();
-    const m = d.meta;
-
-    document.getElementById('nav-updated').textContent = `업데이트: ${m.updated}`;
-    document.getElementById('stat-posts').textContent = m.total_posts_analyzed.toLocaleString();
-    document.getElementById('stat-week').textContent = m.week;
-    document.getElementById('stat-remain-num').textContent = m.credits_remaining.toLocaleString();
-    const weeksLeft = Math.floor(m.credits_remaining / 25);
-    document.getElementById('stat-duration').textContent = `약 ${weeksLeft}주`;
-
-    // 히어로 배너 동적 업데이트
-    const top1 = d.trending_foods[0];
-    document.getElementById('hero-week').textContent = m.week;
-    document.getElementById('hero-top').textContent = `${top1.name} (${top1.name_ko})`;
-    document.getElementById('hero-posts').textContent = m.total_posts_analyzed.toLocaleString();
-
-    // 크레딧
-    const usedPct = Math.round((m.credits_used / 5000) * 100);
-    document.getElementById('credit-pct').textContent = `${usedPct}% 사용`;
-    document.getElementById('credit-ratio').textContent = `${m.credits_used} / 5,000`;
-    document.getElementById('credit-fill').style.width = usedPct + '%';
-    document.getElementById('credit-note').textContent = `주 1회 기준 약 ${weeksLeft}주 사용 가능`;
-    document.getElementById('leg-used').textContent = m.credits_used;
-    document.getElementById('leg-remain').textContent = m.credits_remaining.toLocaleString();
-
-    // 도넛
-    const circumference = 2 * Math.PI * 45;
-    const offset = circumference * (1 - usedPct / 100);
-    const donutFill = document.getElementById('donut-fill');
-    donutFill.style.strokeDasharray = circumference;
-    setTimeout(() => { donutFill.style.strokeDashoffset = offset; }, 200);
-    document.getElementById('donut-label').textContent = usedPct + '%';
-
-    // 랭킹
-    const pillMap = { TikTok: 'tiktok', Instagram: 'instagram', Reddit: 'reddit', Twitter: 'twitter', YouTube: 'youtube' };
-    document.getElementById('ranking-list').innerHTML = d.trending_foods.map(f => {
-      const cls = f.change.startsWith('+') ? 'up' : f.change === '0' ? 'same' : 'down';
-      const lbl = f.change === '0' ? '–' : f.change;
-      const pills = f.platforms.map(p =>
-        `<span class="pill pill-${pillMap[p]||''}">${p}</span>`
-      ).join('');
-      return `<div class="rank-row">
-        <div class="rank-num ${f.rank <= 3 ? 'top3' : ''}">${f.rank}</div>
-        <div>
-          <div class="rank-food-name">${f.name} ${pills}</div>
-          <div class="rank-food-ko">${f.name_ko}</div>
-        </div>
-        <div class="rank-bar-wrap">
-          <div class="rank-bar"><div class="rank-bar-fill" style="width:${f.score}%"></div></div>
-        </div>
-        <div class="rank-score">${f.score}</div>
-        <div class="rank-change ${cls}">${lbl}</div>
-      </div>`;
-    }).join('');
-
-    // 플랫폼 카드
-    const pl = d.platforms;
-    document.getElementById('platform-tiktok').innerHTML    = renderPlatformCard(pl.tiktok,    'tiktok');
-    document.getElementById('platform-instagram').innerHTML = renderPlatformCard(pl.instagram,  'instagram');
-    document.getElementById('platform-reddit').innerHTML    = renderPlatformCard(pl.reddit,     'reddit');
-    document.getElementById('platform-twitter').innerHTML   = renderPlatformCard(pl.twitter,    'twitter');
-    document.getElementById('platform-youtube').innerHTML  = renderPlatformCard(pl.youtube,    'youtube');
-
-    // ── 실시간 리포트 렌더링 ──
-    const rt = d.realtime_report;
-    if (rt) {
-      document.getElementById('realtime-report-section').style.display = '';
-      document.getElementById('rt-title').textContent    = rt.title;
-      document.getElementById('rt-subtitle').textContent = rt.subtitle;
-      document.getElementById('rt-date').textContent     = rt.date;
-
-      // 바이럴 TikTok
-      document.getElementById('rt-viral-tbody').innerHTML = rt.viral_tiktok.map(v => `
-        <tr>
-          <td class="vt-rank">${v.rank}</td>
-          <td>
-            <div class="vt-title"><a href="${v.url}" target="_blank">${v.title} ↗</a></div>
-            <div class="vt-creator">${v.creator}</div>
-            ${v.note ? `<div class="vt-note">${v.note}</div>` : ''}
-          </td>
-          <td><span class="vt-food-badge">${v.food}</span></td>
-          <td class="vt-metric">👁 ${v.views}</td>
-          <td class="vt-metric">❤️ ${v.likes}</td>
-        </tr>`).join('');
-
-      // 핫푸드
-      document.getElementById('rt-hot-foods').innerHTML = rt.hot_foods.map(f => `
-        <div class="hf-card">
-          <div class="hf-head">
-            <div>
-              <div class="hf-name">${f.food}</div>
-              <div class="hf-name-en">${f.food_en}</div>
-            </div>
-            <div class="hf-platforms">${f.platforms.map(p => `<span class="hf-pill ${p}">${p}</span>`).join('')}</div>
-          </div>
-          <div class="hf-highlight"><a href="${f.highlight_url}" target="_blank">📌 ${f.highlight} ↗</a></div>
-          <div class="hf-insight">💡 ${f.insight}</div>
-        </div>`).join('');
-
-      // 지역
-      document.getElementById('rt-geo').innerHTML = rt.geography.map(g => `
-        <div class="geo-card">
-          <div class="geo-flag">${g.icon}</div>
-          <div>
-            <div class="geo-country">${g.country}</div>
-            <div class="geo-cities">${g.cities.join(' · ')}</div>
-            <div class="geo-trend">${g.content_trend}</div>
-          </div>
-        </div>`).join('');
-
-      // 외국인 궁금증
-      document.getElementById('rt-fq').innerHTML = rt.foreigner_questions.map(fq => `
-        <div class="fq-item">
-          <div style="flex:1;">
-            <div class="fq-q">${fq.q}</div>
-            <div class="fq-meta">
-              <span class="fq-src">출처: <a href="${fq.source_url}" target="_blank">${fq.source} ↗</a></span>
-              ${fq.replies ? `<span class="fq-replies">댓글 ${fq.replies}개</span>` : ''}
-            </div>
-          </div>
-          <div class="fq-opp">💡 ${fq.opportunity}</div>
-        </div>`).join('');
-
-      // 시장 규모
-      document.getElementById('rt-market').innerHTML = rt.market_data.map(mk => `
-        <div class="mkt-card">
-          <div class="mkt-val">${mk.value}</div>
-          <div class="mkt-stat">${mk.stat}</div>
-          <div class="mkt-detail">${mk.detail}</div>
-          <div class="mkt-src"><a href="${mk.source_url}" target="_blank">📌 ${mk.source} ↗</a></div>
-        </div>`).join('');
-
-      // 진입 장벽
-      document.getElementById('rt-barriers').innerHTML = rt.entry_barriers.map(b => `
-        <div class="barrier-item">
-          <div class="barrier-prob">${b.barrier}</div>
-          <div class="barrier-sol">${b.content_solution}</div>
-        </div>`).join('');
-    }
-
-    // 레퍼런스 테이블
-    document.getElementById('ref-date').textContent = m.collection_date || m.updated;
-    const refPillMap = { TikTok: 'tiktok', Instagram: 'instagram', Reddit: 'reddit', 'Twitter/X': 'twitter', YouTube: 'youtube' };
-    if (d.references && d.references.length) {
-      document.getElementById('references-wrap').innerHTML = `
-        <table class="ref-table">
-          <thead><tr>
-            <th>#</th><th>콘텐츠</th><th>플랫폼</th><th>지표</th><th>음식</th><th>유형</th><th>날짜</th>
-          </tr></thead>
-          <tbody>${d.references.map(r => `
-            <tr>
-              <td style="color:var(--text-light);font-size: 13px;">${r.id}</td>
-              <td>
-                <div class="ref-ttl"><a href="${r.url}" target="_blank">${r.title} ↗</a></div>
-                <div class="ref-creator">${r.creator}</div>
-              </td>
-              <td><span class="ref-pill ${refPillMap[r.platform]||''}">${r.platform}</span></td>
-              <td class="ref-metrics">${r.metrics}</td>
-              <td class="ref-food">${r.food_topic}</td>
-              <td class="ref-type">${r.content_type}</td>
-              <td style="font-size: 13px;color:var(--text-light);white-space:nowrap;">${r.date}</td>
-            </tr>`).join('')}
-          </tbody>
-        </table>`;
-    }
-
-    // 미니 스탯
-    const miniData = [
-      { key: 'tiktok',    icon: '🎵', name: 'TikTok',     count: pl.tiktok.posts_analyzed },
-      { key: 'instagram', icon: '📸', name: 'Instagram',  count: pl.instagram.posts_analyzed },
-      { key: 'reddit',    icon: '🔴', name: 'Reddit',     count: pl.reddit.posts_analyzed },
-      { key: 'twitter',   icon: '🐦', name: 'Twitter/X',  count: pl.twitter.posts_analyzed },
-      { key: 'youtube',   icon: '▶️', name: 'YouTube',    count: pl.youtube.posts_analyzed },
-    ];
-    const apiLabel = { tiktok: 'Xpoz MCP', instagram: 'Xpoz MCP', reddit: 'Xpoz MCP', twitter: 'Xpoz MCP', youtube: 'YouTube API' };
-    document.getElementById('mini-stats').innerHTML = miniData.map(ms =>
-      `<div class="mini-stat-row">
-        <div class="mini-stat-left">
-          <div class="mini-icon ${ms.key}">${ms.icon}</div>
-          <div>
-            <div class="mini-name">${ms.name}</div>
-            <div class="mini-count">${apiLabel[ms.key]}</div>
-          </div>
-        </div>
-        <div class="mini-stat-val">${ms.count}</div>
-      </div>`
-    ).join('');
-
-    // 감성
-    document.getElementById('sentiment-list').innerHTML = d.regional_sentiment.map(r =>
-      `<div class="sentiment-row">
-        <div class="s-region">${r.region}</div>
-        <div class="s-bars">
-          <div class="s-pos" style="flex:${r.positive}"></div>
-          <div class="s-neu" style="flex:${r.neutral}"></div>
-          <div class="s-neg" style="flex:${r.negative}"></div>
-        </div>
-        <div class="s-pct">${r.positive}%</div>
-      </div>`
-    ).join('');
-
+    await renderInsightsData(d);
   } catch(e) { console.error('로드 실패:', e); }
 }
 
 loadData();
+loadHistoryIndex();
 loadContentData();
 loadArchiveData();
 
