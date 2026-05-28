@@ -1503,7 +1503,7 @@ body {
               <div class="qstat-icon">📅</div>
               <div class="qstat-info">
                 <div class="qstat-val" id="stat-week" style="font-size: 17px;">—</div>
-                <div class="qstat-lbl">업데이트 주차</div>
+                <div class="qstat-lbl">최근 업데이트</div>
               </div>
             </div>
             <div class="qstat">
@@ -2223,7 +2223,9 @@ async function renderInsightsData(d) {
   const collectedLabel = mo && dy ? `${parseInt(mo)}월 ${parseInt(dy)}일 수집` : m.updated;
   document.getElementById('nav-updated').textContent = `업데이트: ${m.updated}`;
   document.getElementById('stat-posts').textContent = m.total_posts_analyzed.toLocaleString();
-  document.getElementById('stat-week').textContent = isoWeekToKorean(m.week);
+  // "2026-05-22" → "5월 22일"
+  const [uy, um, ud] = (m.updated || '').split('-');
+  document.getElementById('stat-week').textContent = (um && ud) ? `${parseInt(um)}월 ${parseInt(ud)}일` : m.updated;
   document.getElementById('stat-remain-num').textContent = m.credits_remaining.toLocaleString();
   const weeksLeft = Math.floor(m.credits_remaining / 25);
   document.getElementById('stat-duration').textContent = `약 ${weeksLeft}주`;
