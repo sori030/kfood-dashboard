@@ -2196,18 +2196,40 @@ function renderMonthlySummary(idx) {
   }).join('');
 }
 
+// ISO 주차("2026 W21") → 한국어("5월 4주차") 변환
+function isoWeekToKorean(weekStr) {
+  const match = weekStr.match(/(\d{4})\s*W(\d+)/);
+  if (!match) return weekStr;
+  const year = parseInt(match[1]), week = parseInt(match[2]);
+  // ISO W1의 월요일 계산
+  const jan4 = new Date(year, 0, 4);
+  const w1Mon = new Date(jan4);
+  w1Mon.setDate(jan4.getDate() - ((jan4.getDay() + 6) % 7));
+  const weekMon = new Date(w1Mon);
+  weekMon.setDate(w1Mon.getDate() + (week - 1) * 7);
+  const month = weekMon.getMonth() + 1;
+  // 해당 월 기준 몇 주차
+  const firstMon = new Date(year, weekMon.getMonth(), 1);
+  const offset = (firstMon.getDay() + 6) % 7; // 월요일 기준 offset
+  const weekOfMonth = Math.ceil((weekMon.getDate() + offset) / 7);
+  return `${month}월 ${weekOfMonth}주차`;
+}
+
 // ── 인사이트 데이터 렌더 (공통) ──
 async function renderInsightsData(d) {
   const m = d.meta;
+  // 수집 날짜 포맷: "2026-05-22" → "5월 22일 수집"
+  const [y, mo, dy] = (m.updated || '').split('-');
+  const collectedLabel = mo && dy ? `${parseInt(mo)}월 ${parseInt(dy)}일 수집` : m.updated;
   document.getElementById('nav-updated').textContent = `업데이트: ${m.updated}`;
   document.getElementById('stat-posts').textContent = m.total_posts_analyzed.toLocaleString();
-  document.getElementById('stat-week').textContent = m.week;
+  document.getElementById('stat-week').textContent = isoWeekToKorean(m.week);
   document.getElementById('stat-remain-num').textContent = m.credits_remaining.toLocaleString();
   const weeksLeft = Math.floor(m.credits_remaining / 25);
   document.getElementById('stat-duration').textContent = `약 ${weeksLeft}주`;
 
   const top1 = d.trending_foods[0];
-  document.getElementById('hero-week').textContent = m.week;
+  document.getElementById('hero-week').textContent = isoWeekToKorean(m.week);
   document.getElementById('hero-top').textContent = `${top1.name} (${top1.name_ko})`;
   document.getElementById('hero-posts').textContent = m.total_posts_analyzed.toLocaleString();
 
