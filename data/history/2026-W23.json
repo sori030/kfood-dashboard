@@ -2,31 +2,31 @@
   "meta": {
     "updated": "2026-06-01",
     "week": "2026 W23",
-    "total_posts_analyzed": 80,
-    "credits_used": 95,
-    "credits_remaining": 4905,
+    "total_posts_analyzed": 615,
+    "credits_used": 68,
+    "credits_remaining": 4932,
     "collection_method": "Xpoz MCP (TikTok · Instagram · Reddit · Twitter)",
     "collection_date": "2026-06-01",
     "analyst": "K-Food Dashboard"
   },
   "trending_foods": [
-    { "rank": 1, "name": "Buldak",               "name_ko": "불닭볶음면", "score": 99, "change": "+8", "platforms": ["TikTok", "Instagram", "Twitter"] },
-    { "rank": 2, "name": "Korean BBQ",            "name_ko": "한국 BBQ",   "score": 95, "change": "+1", "platforms": ["TikTok", "Instagram", "Twitter"] },
-    { "rank": 3, "name": "Convenience Store Food","name_ko": "편의점음식", "score": 89, "change": "NEW","platforms": ["Instagram", "Reddit"] },
-    { "rank": 4, "name": "Tteokbokki",            "name_ko": "떡볶이",     "score": 85, "change": "-13","platforms": ["Instagram"] },
-    { "rank": 5, "name": "Korean Corn Dog",       "name_ko": "한국 핫도그","score": 78, "change": "NEW","platforms": ["TikTok"] },
-    { "rank": 6, "name": "Kimbap",                "name_ko": "김밥",       "score": 74, "change": "-13","platforms": ["TikTok", "Reddit"] },
-    { "rank": 7, "name": "Samgyeopsal",           "name_ko": "삼겹살",     "score": 71, "change": "-4", "platforms": ["Reddit", "TikTok"] },
-    { "rank": 8, "name": "Shin Ramyun",           "name_ko": "신라면",     "score": 67, "change": "NEW","platforms": ["Reddit"] },
-    { "rank": 9, "name": "Cheeseball",            "name_ko": "치즈볼",     "score": 63, "change": "NEW","platforms": ["TikTok"] },
-    { "rank":10, "name": "Banchan",               "name_ko": "반찬",       "score": 59, "change": "NEW","platforms": ["Reddit"] }
+    { "rank": 1, "name": "Buldak",       "name_ko": "불닭볶음면", "score": 99, "change": "+8",  "platforms": ["TikTok", "Instagram", "Twitter"] },
+    { "rank": 2, "name": "Korean BBQ",   "name_ko": "한국 BBQ",   "score": 96, "change": "+1",  "platforms": ["TikTok", "Instagram"] },
+    { "rank": 3, "name": "Tteokbokki",  "name_ko": "떡볶이",     "score": 88, "change": "+3",  "platforms": ["TikTok", "Instagram"] },
+    { "rank": 4, "name": "Kimchi",       "name_ko": "김치",       "score": 83, "change": "NEW", "platforms": ["Instagram", "TikTok"] },
+    { "rank": 5, "name": "Ramen",        "name_ko": "라면",       "score": 79, "change": "NEW", "platforms": ["Instagram", "Twitter"] },
+    { "rank": 6, "name": "Samgyeopsal", "name_ko": "삼겹살",     "score": 72, "change": "-1",  "platforms": ["Instagram"] },
+    { "rank": 7, "name": "Kimbap",       "name_ko": "김밥",       "score": 67, "change": "-7",  "platforms": ["Instagram", "Reddit"] },
+    { "rank": 8, "name": "Bibimbap",     "name_ko": "비빔밥",     "score": 61, "change": "-18", "platforms": ["Instagram"] },
+    { "rank": 9, "name": "Bulgogi",      "name_ko": "불고기",     "score": 56, "change": "NEW", "platforms": ["TikTok", "Instagram"] },
+    { "rank":10, "name": "Sundubu",      "name_ko": "순두부찌개", "score": 52, "change": "NEW", "platforms": ["TikTok"] }
   ],
   "platforms": {
     "tiktok": {
       "name": "TikTok",
       "icon": "🎵",
       "color": "#010101",
-      "posts_analyzed": 20,
+      "posts_analyzed": 172,
       "source_tool": "Xpoz MCP",
       "source_url": "https://www.tiktok.com",
       "top_hashtags": [
@@ -79,7 +79,7 @@
       "name": "Instagram",
       "icon": "📸",
       "color": "#E1306C",
-      "posts_analyzed": 20,
+      "posts_analyzed": 300,
       "source_tool": "Xpoz MCP",
       "source_url": "https://www.instagram.com",
       "top_hashtags": [
@@ -109,22 +109,22 @@
       ],
       "viral_contents": [
         {
+          "title": "How school lunch is prepared in Korea — all boys high school",
+          "creator": "@jukananan727",
+          "likes": "3,305,218", "saves": "추정 150만+",
+          "url": "https://www.instagram.com/jukananan727",
+          "date": "2026-04-11",
+          "food_topic": "한국 급식",
+          "why_notable": "330만 좋아요 — 한국 학교 급식 제조 과정, 외국인 일상 K-푸드 관심 반영"
+        },
+        {
           "title": "Creamy Buldak Carbonara with Steak 🍜❤️",
           "creator": "@haileyateit",
           "likes": "2,740,506", "saves": "추정 120만+",
           "url": "https://www.instagram.com/haileyateit",
           "date": "2026-04-26",
           "food_topic": "불닭볶음면",
-          "why_notable": "퓨전 레시피 포맷 (불닭+카보나라+스테이크) — 270만 좋아요, 불닭의 글로벌 레시피화 증명"
-        },
-        {
-          "title": "Buldak Cheese Omelette in Myeongdong 🔥",
-          "creator": "@korea__table",
-          "likes": "115,085", "saves": "추정 5만+",
-          "url": "https://www.instagram.com/korea__table",
-          "date": "2026-05-09",
-          "food_topic": "불닭",
-          "why_notable": "명동 현지 길거리 음식 포맷 — 여행자 방문 전 탐색 콘텐츠로 최고 효율"
+          "why_notable": "270만 좋아요 — 불닭 카보나라+스테이크 퓨전 레시피, 불닭의 글로벌 재료화 증명"
         }
       ]
     },
@@ -132,7 +132,7 @@
       "name": "Reddit",
       "icon": "🔴",
       "color": "#FF4500",
-      "posts_analyzed": 20,
+      "posts_analyzed": 85,
       "source_tool": "Xpoz MCP",
       "source_url": "https://www.reddit.com",
       "top_subreddits": [
@@ -174,7 +174,7 @@
       "name": "Twitter/X",
       "icon": "🐦",
       "color": "#1DA1F2",
-      "posts_analyzed": 20,
+      "posts_analyzed": 58,
       "source_tool": "Xpoz MCP",
       "source_url": "https://twitter.com",
       "top_keywords": [
@@ -342,12 +342,12 @@
     "date": "2026-06-01",
 
     "viral_tiktok": [
-      { "rank": 1, "title": "She's craving specific korean food",  "food": "한국음식",   "creator": "@teddy.abuk",       "views": "64,748", "likes": "3,105", "url": "https://www.tiktok.com/@teddy.abuk",       "note": "커플 서울 여행 감성 포맷 — 여행 전 한국 음식 탐색 욕구 자극" },
-      { "rank": 2, "title": "Magal Korean BBQ Karawang",           "food": "한국 BBQ",  "creator": "@darelfamily",      "views": "2,268",  "likes": "29",    "url": "https://www.tiktok.com/@darelfamily",      "note": "인도네시아 현지 한국 BBQ — 동남아 K-푸드 확산 직접 증거" },
-      { "rank": 3, "title": "KBBQ date night 🙈",                  "food": "한국 BBQ",  "creator": "@7777martha7777",   "views": "255",    "likes": "17",    "url": "https://www.tiktok.com/@7777martha7777",   "note": "데이트 포맷 — 한국 BBQ의 특별한 날 소비 패턴" },
-      { "rank": 4, "title": "K-dessert cheeseball & mini hotdog",  "food": "치즈볼",    "creator": "@sennykingg",       "views": "1,398",  "likes": "121",   "url": "https://www.tiktok.com/@sennykingg",       "note": "K-디저트 스낵 포맷 — 먹방 태그 결합으로 확산" },
-      { "rank": 5, "title": "컵라면과 삼각김밥 mukbang",           "food": "컵라면",    "creator": "@gobongyee",        "views": "517",    "likes": "104",   "url": "https://www.tiktok.com/@gobongyee",        "note": "편의점 조합 먹방 — 외국인 편의점 경험 관심도 반영" },
-      { "rank": 6, "title": "Korean corn dog street food 🌭",      "food": "핫도그",    "creator": "@elleonestop",      "views": "424",    "likes": "1",     "url": "https://www.tiktok.com/@elleonestop",      "note": "길거리 음식 비주얼 포맷 — crunch sound 클로즈업" }
+      { "rank": 1, "title": "now all the flavor's gone.. (edit: this video is a joke)", "food": "한국 BBQ",  "creator": "@crim.jpeg",       "views": "26,244,125", "likes": "1,324,872", "url": "https://www.tiktok.com/@crim.jpeg",       "note": "2600만 뷰 — 한국 BBQ 유머 포맷, 감성 공감 콘텐츠" },
+      { "rank": 2, "title": "고등학교 떡볶이 조리과정 Making Tteokbokki at a Korean High School", "food": "떡볶이", "creator": "@gaezari", "views": "20,254,844", "likes": "1,438,991", "url": "https://www.tiktok.com/@gaezari", "note": "2000만 뷰 — 학교 급식 제조 과정, 외국인 관심 폭발" },
+      { "rank": 3, "title": "All you eat Korean barbecue, hibachi in one! NJ 07060",    "food": "한국 BBQ",  "creator": "@iambiggroove",    "views": "14,019,957", "likes": "848,854",   "url": "https://www.tiktok.com/@iambiggroove",    "note": "1400만 뷰 — 미국 NJ 한국 BBQ 무한리필 체험 포맷" },
+      { "rank": 4, "title": "Why everyone in Korea eats this when it rains",             "food": "누룽지",    "creator": "@avia4471",        "views": "9,737,601",  "likes": "237,518",   "url": "https://www.tiktok.com/@avia4471",        "note": "970만 뷰 — 비올 때 한국 음식 스토리텔링, 문화 콘텐츠 파워" },
+      { "rank": 5, "title": "As Always, My Soft Tofu Spicy Ramen Is Perfect",           "food": "순두부라면", "creator": "@chaejjisim",     "views": "8,611,448",  "likes": "343,519",   "url": "https://www.tiktok.com/@chaejjisim",      "note": "860만 뷰 — 순두부+라면 집밥 포맷, 일상 K-푸드 공감대" },
+      { "rank": 6, "title": "Buldak always to the rescue — buldak carbonara recipe",    "food": "불닭볶음면", "creator": "@zoyacooks7",     "views": "7,156,333",  "likes": "463,586",   "url": "https://www.tiktok.com/@zoyacooks7",      "note": "720만 뷰 — 불닭 카보나라 레시피, Instagram 트렌드와 동기화" }
     ],
 
     "hot_foods": [
