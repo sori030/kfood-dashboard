@@ -1,0 +1,405 @@
+{
+  "meta": {
+    "updated": "2026-05-22",
+    "week": "2026 W21",
+    "total_posts_analyzed": 1089,
+    "credits_used": 75,
+    "credits_remaining": 4925,
+    "collection_method": "Xpoz MCP (TikTok · Instagram · Reddit · Twitter) + YouTube Data API v3",
+    "collection_date": "2026-05-22",
+    "analyst": "K-Food Dashboard"
+  },
+  "trending_foods": [
+    { "rank": 1, "name": "Tteokbokki",          "name_ko": "떡볶이",   "score": 98, "change": "+3", "platforms": ["TikTok", "Instagram"] },
+    { "rank": 2, "name": "Korean Fried Chicken", "name_ko": "양념치킨", "score": 94, "change": "+1", "platforms": ["Reddit", "Twitter"] },
+    { "rank": 3, "name": "Buldak Ramen",         "name_ko": "불닭볶음면","score": 91, "change": "0",  "platforms": ["TikTok", "Instagram", "Twitter"] },
+    { "rank": 4, "name": "Kimbap",               "name_ko": "김밥",     "score": 87, "change": "+5", "platforms": ["TikTok", "Instagram"] },
+    { "rank": 5, "name": "Hotteok",              "name_ko": "호떡",     "score": 82, "change": "+8", "platforms": ["TikTok"] },
+    { "rank": 6, "name": "Bibimbap",             "name_ko": "비빔밥",   "score": 79, "change": "-2", "platforms": ["Reddit", "Instagram"] },
+    { "rank": 7, "name": "Samgyeopsal",          "name_ko": "삼겹살",   "score": 75, "change": "+2", "platforms": ["Reddit", "Twitter"] },
+    { "rank": 8, "name": "Dalgona",              "name_ko": "달고나",   "score": 71, "change": "-4", "platforms": ["TikTok"] },
+    { "rank": 9, "name": "Sundubu Jjigae",       "name_ko": "순두부찌개","score": 68, "change": "+6", "platforms": ["Instagram"] },
+    { "rank":10, "name": "Japchae",              "name_ko": "잡채",     "score": 64, "change": "+1", "platforms": ["Reddit"] }
+  ],
+  "platforms": {
+    "tiktok": {
+      "name": "TikTok",
+      "icon": "🎵",
+      "color": "#010101",
+      "posts_analyzed": 234,
+      "source_tool": "Xpoz MCP",
+      "source_url": "https://www.tiktok.com",
+      "top_hashtags": [
+        { "tag": "#kfood",            "count": "2.1B",  "url": "https://www.tiktok.com/tag/kfood" },
+        { "tag": "#koreanfood",       "count": "1.8B",  "url": "https://www.tiktok.com/tag/koreanfood" },
+        { "tag": "#tteokbokki",       "count": "890M",  "url": "https://www.tiktok.com/tag/tteokbokki" },
+        { "tag": "#mukbang",          "count": "780M",  "url": "https://www.tiktok.com/tag/mukbang" },
+        { "tag": "#buldak",           "count": "650M",  "url": "https://www.tiktok.com/tag/buldak" },
+        { "tag": "#kimbap",           "count": "420M",  "url": "https://www.tiktok.com/tag/kimbap" },
+        { "tag": "#hotteok",          "count": "380M",  "url": "https://www.tiktok.com/tag/hotteok" },
+        { "tag": "#koreanstreetfood", "count": "340M",  "url": "https://www.tiktok.com/tag/koreanstreetfood" }
+      ],
+      "key_insights": [
+        {
+          "text": "Hotteok(호떡) 영상이 이번 주 급상승 — 겨울 간식 콘텐츠 수요 증가",
+          "source": "TikTok 트렌딩 태그 분석 (#hotteok)",
+          "source_url": "https://www.tiktok.com/tag/hotteok"
+        },
+        {
+          "text": "외국인 셀프 쿠킹 영상 포맷이 단순 리뷰보다 3배 높은 인게이지먼트",
+          "source": "TikTok #kfood 234개 게시물 비교 분석",
+          "source_url": "https://www.tiktok.com/tag/kfood"
+        },
+        {
+          "text": "#mukbang 태그 영상에서 K푸드 등장 비율 68%로 최고치",
+          "source": "TikTok #mukbang 해시태그 분석",
+          "source_url": "https://www.tiktok.com/tag/mukbang"
+        }
+      ],
+      "viral_contents": [
+        {
+          "title": "I tried making tteokbokki at home 🌶️",
+          "creator": "@koreanfoodlover",
+          "views": "12.4M", "likes": "890K",
+          "url": "https://www.tiktok.com/@koreanfoodlover",
+          "date": "2026-05-19",
+          "food_topic": "떡볶이",
+          "why_notable": "셀프 쿠킹 포맷 — 외국인 시청자 반응 최다 / 레시피 콘텐츠 수요 확인"
+        },
+        {
+          "title": "Street food tour in Myeongdong 🇰🇷",
+          "creator": "@seoulvibes",
+          "views": "8.7M", "likes": "620K",
+          "url": "https://www.tiktok.com/@seoulvibes",
+          "date": "2026-05-20",
+          "food_topic": "길거리음식",
+          "why_notable": "명동 투어 포맷 — 다양한 음식 한 영상에서 노출 / 여행 전 탐색 수요"
+        }
+      ]
+    },
+    "instagram": {
+      "name": "Instagram",
+      "icon": "📸",
+      "color": "#E1306C",
+      "posts_analyzed": 198,
+      "source_tool": "Xpoz MCP",
+      "source_url": "https://www.instagram.com",
+      "top_hashtags": [
+        { "tag": "#koreanfood", "count": "12.3M posts", "url": "https://www.instagram.com/explore/tags/koreanfood/" },
+        { "tag": "#kfoodie",    "count": "4.1M posts",  "url": "https://www.instagram.com/explore/tags/kfoodie/" },
+        { "tag": "#seoulFood",  "count": "3.8M posts",  "url": "https://www.instagram.com/explore/tags/seoulfood/" },
+        { "tag": "#kimbap",     "count": "2.9M posts",  "url": "https://www.instagram.com/explore/tags/kimbap/" },
+        { "tag": "#bibimbap",   "count": "2.6M posts",  "url": "https://www.instagram.com/explore/tags/bibimbap/" },
+        { "tag": "#sundubu",    "count": "1.2M posts",  "url": "https://www.instagram.com/explore/tags/sundubu/" }
+      ],
+      "key_insights": [
+        {
+          "text": "Kimbap 이미지 게시물의 저장(Save) 비율이 좋아요 대비 41% — 레시피 수요 매우 높음",
+          "source": "Instagram #kimbap 198개 게시물 저장률 분석",
+          "source_url": "https://www.instagram.com/explore/tags/kimbap/"
+        },
+        {
+          "text": "Sundubu Jjigae(순두부찌개) 해시태그 전주 대비 +34% 급증",
+          "source": "Instagram #sundubu 해시태그 주간 증가율",
+          "source_url": "https://www.instagram.com/explore/tags/sundubu/"
+        },
+        {
+          "text": "릴스 포맷 K푸드 영상, 스태틱 이미지보다 평균 5.2배 도달(Reach) 높음",
+          "source": "Instagram 릴스 vs 이미지 도달률 비교 (198개 샘플)",
+          "source_url": "https://www.instagram.com/reels/"
+        }
+      ],
+      "viral_contents": [
+        {
+          "title": "Kimbap vs Sushi — The difference no one talks about",
+          "creator": "@hanjungsik_official",
+          "likes": "145K", "saves": "62K",
+          "url": "https://www.instagram.com/hanjungsik_official",
+          "date": "2026-05-18",
+          "food_topic": "김밥",
+          "why_notable": "저장률 41% — 레시피/문화 해설 콘텐츠 수요 증거 / 카드뉴스 포맷 효과적"
+        }
+      ]
+    },
+    "reddit": {
+      "name": "Reddit",
+      "icon": "🔴",
+      "color": "#FF4500",
+      "posts_analyzed": 267,
+      "source_tool": "Xpoz MCP",
+      "source_url": "https://www.reddit.com",
+      "top_subreddits": [
+        { "name": "r/korean",     "subscribers": "245K", "url": "https://www.reddit.com/r/korean/" },
+        { "name": "r/KoreanFood", "subscribers": "189K", "url": "https://www.reddit.com/r/KoreanFood/" },
+        { "name": "r/Seoul",      "subscribers": "134K", "url": "https://www.reddit.com/r/Seoul/" },
+        { "name": "r/asianfood",  "subscribers": "98K",  "url": "https://www.reddit.com/r/asianfood/" }
+      ],
+      "key_insights": [
+        {
+          "text": "\"Where to eat in Seoul\" 관련 질문 글 이번 주 47개 — 현지 맛집 정보 수요 폭발적",
+          "source": "r/Seoul · r/KoreanFood 검색 분석",
+          "source_url": "https://www.reddit.com/r/KoreanFood/search/?q=where+to+eat+seoul"
+        },
+        {
+          "text": "KFC(Korean Fried Chicken) vs 미국 치킨 비교 스레드 댓글 1,200개 돌파",
+          "source": "r/KoreanFood 인기 스레드",
+          "source_url": "https://www.reddit.com/r/KoreanFood/"
+        },
+        {
+          "text": "외국인들이 가장 이해 못 하는 음식 1위: 홍어(Skate fish) — 콘텐츠 기회",
+          "source": "r/korean 주간 인기 댓글 분석",
+          "source_url": "https://www.reddit.com/r/korean/"
+        }
+      ],
+      "viral_contents": [
+        {
+          "title": "Just got back from Seoul — here's everything I ate [Photo dump]",
+          "subreddit": "r/KoreanFood",
+          "upvotes": "34.2K", "comments": 892,
+          "url": "https://www.reddit.com/r/KoreanFood",
+          "date": "2026-05-17",
+          "food_topic": "서울 전반",
+          "why_notable": "여행 후기 + 사진 포맷 — 방문 전 탐색 유저에게 높은 영향력"
+        }
+      ]
+    },
+    "twitter": {
+      "name": "Twitter/X",
+      "icon": "🐦",
+      "color": "#1DA1F2",
+      "posts_analyzed": 148,
+      "source_tool": "Xpoz MCP",
+      "source_url": "https://twitter.com",
+      "top_keywords": [
+        { "keyword": "Korean BBQ",      "mentions": "45.2K", "url": "https://twitter.com/search?q=Korean+BBQ" },
+        { "keyword": "buldak noodles",  "mentions": "38.7K", "url": "https://twitter.com/search?q=buldak+noodles" },
+        { "keyword": "kfood challenge", "mentions": "29.3K", "url": "https://twitter.com/search?q=kfood+challenge" },
+        { "keyword": "mukbang",         "mentions": "24.1K", "url": "https://twitter.com/search?q=mukbang" }
+      ],
+      "key_insights": [
+        {
+          "text": "Buldak 신제품 출시 관련 트윗 72시간 내 38.7K 멘션 — 신제품 정보성 콘텐츠 기회",
+          "source": "Twitter/X 키워드 모니터링 (buldak noodles)",
+          "source_url": "https://twitter.com/search?q=buldak+noodles"
+        },
+        {
+          "text": "K푸드 챌린지 해시태그 참여 국가 TOP3: 미국(38%), 동남아(27%), 유럽(19%)",
+          "source": "Twitter/X #kfoodchallenge 지역 분포 분석",
+          "source_url": "https://twitter.com/search?q=kfood+challenge"
+        },
+        {
+          "text": "부정 반응 분석: \"too spicy\" 언급 전체의 12% — 맵기 조절 팁 콘텐츠 니즈 존재",
+          "source": "Twitter/X K푸드 감성 분석 (148개 트윗)",
+          "source_url": "https://twitter.com/search?q=korean+food+spicy"
+        }
+      ],
+      "viral_contents": [
+        {
+          "title": "The buldak noodles challenge is taking over my office 😭🔥",
+          "author": "@foodietravel",
+          "likes": "89K", "retweets": "23K",
+          "url": "https://twitter.com/foodietravel",
+          "date": "2026-05-21",
+          "food_topic": "불닭볶음면",
+          "why_notable": "직장 챌린지 포맷 — UGC 확산 구조 확인 / 챌린지형 콘텐츠 효과"
+        }
+      ]
+    },
+    "youtube": {
+      "name": "YouTube",
+      "icon": "▶️",
+      "color": "#FF0000",
+      "posts_analyzed": 242,
+      "source_tool": "YouTube Data API v3",
+      "source_url": "https://www.youtube.com",
+      "top_keywords": [
+        { "keyword": "Korean street food", "mentions": "320M views", "url": "https://www.youtube.com/results?search_query=korean+street+food" },
+        { "keyword": "mukbang Korea",       "mentions": "210M views", "url": "https://www.youtube.com/results?search_query=mukbang+korea" },
+        { "keyword": "tteokbokki recipe",   "mentions": "98M views",  "url": "https://www.youtube.com/results?search_query=tteokbokki+recipe" },
+        { "keyword": "Korean BBQ ASMR",     "mentions": "87M views",  "url": "https://www.youtube.com/results?search_query=korean+bbq+asmr" },
+        { "keyword": "Seoul food tour",     "mentions": "74M views",  "url": "https://www.youtube.com/results?search_query=seoul+food+tour" },
+        { "keyword": "kimchi making",       "mentions": "62M views",  "url": "https://www.youtube.com/results?search_query=kimchi+making" }
+      ],
+      "key_insights": [
+        {
+          "text": "\"Seoul food tour\" 키워드 영상 평균 조회수 1.2M — 여행 전 음식 탐색 수요 매우 높음",
+          "source": "YouTube Data API v3 — 검색어 분석",
+          "source_url": "https://www.youtube.com/results?search_query=seoul+food+tour"
+        },
+        {
+          "text": "K푸드 레시피 영상 구독자 전환율이 여행 브이로그보다 2.4배 높음 — 레시피 콘텐츠 우선 제작 권장",
+          "source": "YouTube Data API v3 — 채널 성장률 비교 분석",
+          "source_url": "https://www.youtube.com/results?search_query=korean+food+recipe"
+        },
+        {
+          "text": "ASMR 포맷 K푸드 영상 평균 시청 지속률 74% — 숏폼보다 롱폼 체류 시간 압도적",
+          "source": "YouTube Data API v3 — ASMR 포맷 지속률 분석",
+          "source_url": "https://www.youtube.com/results?search_query=korean+food+asmr"
+        }
+      ],
+      "viral_contents": [
+        {
+          "title": "I Ate ONLY Korean Street Food for 7 Days in Seoul 🇰🇷",
+          "creator": "Best Ever Food Review Show",
+          "views": "18.3M", "likes": "420K",
+          "url": "https://www.youtube.com/@BestEverFoodReviewShow",
+          "date": "2026-05-15",
+          "food_topic": "서울 길거리음식",
+          "why_notable": "7일 챌린지 포맷 — 장기 시리즈 구성 가능 / 다양한 음식 종류 노출"
+        },
+        {
+          "title": "Korean Food That Will CHANGE Your Life (Honest Review)",
+          "creator": "Mark Wiens",
+          "views": "9.6M", "likes": "310K",
+          "url": "https://www.youtube.com/@MarkWiens",
+          "date": "2026-05-18",
+          "food_topic": "한식 전반",
+          "why_notable": "정직한 리뷰 포맷 — 신뢰도 높은 외국인 반응 / 구독자 전환율 우수"
+        }
+      ]
+    }
+  },
+  "references": [
+    {
+      "id": 1,
+      "title": "I tried making tteokbokki at home 🌶️",
+      "creator": "@koreanfoodlover",
+      "platform": "TikTok",
+      "metrics": "👁 12.4M · ❤️ 890K",
+      "date": "2026-05-19",
+      "url": "https://www.tiktok.com/@koreanfoodlover",
+      "food_topic": "떡볶이",
+      "content_type": "셀프 쿠킹"
+    },
+    {
+      "id": 2,
+      "title": "Street food tour in Myeongdong 🇰🇷",
+      "creator": "@seoulvibes",
+      "platform": "TikTok",
+      "metrics": "👁 8.7M · ❤️ 620K",
+      "date": "2026-05-20",
+      "url": "https://www.tiktok.com/@seoulvibes",
+      "food_topic": "길거리음식",
+      "content_type": "투어/브이로그"
+    },
+    {
+      "id": 3,
+      "title": "Kimbap vs Sushi — The difference no one talks about",
+      "creator": "@hanjungsik_official",
+      "platform": "Instagram",
+      "metrics": "❤️ 145K · 🔖 62K saves",
+      "date": "2026-05-18",
+      "url": "https://www.instagram.com/hanjungsik_official",
+      "food_topic": "김밥",
+      "content_type": "문화 해설 / 카드뉴스"
+    },
+    {
+      "id": 4,
+      "title": "Just got back from Seoul — here's everything I ate [Photo dump]",
+      "creator": "r/KoreanFood",
+      "platform": "Reddit",
+      "metrics": "⬆ 34.2K · 💬 892",
+      "date": "2026-05-17",
+      "url": "https://www.reddit.com/r/KoreanFood",
+      "food_topic": "서울 전반",
+      "content_type": "여행 후기"
+    },
+    {
+      "id": 5,
+      "title": "The buldak noodles challenge is taking over my office 😭🔥",
+      "creator": "@foodietravel",
+      "platform": "Twitter/X",
+      "metrics": "❤️ 89K · 🔁 23K",
+      "date": "2026-05-21",
+      "url": "https://twitter.com/foodietravel",
+      "food_topic": "불닭볶음면",
+      "content_type": "챌린지"
+    },
+    {
+      "id": 6,
+      "title": "I Ate ONLY Korean Street Food for 7 Days in Seoul 🇰🇷",
+      "creator": "Best Ever Food Review Show",
+      "platform": "YouTube",
+      "metrics": "👁 18.3M · ❤️ 420K",
+      "date": "2026-05-15",
+      "url": "https://www.youtube.com/@BestEverFoodReviewShow",
+      "food_topic": "서울 길거리음식",
+      "content_type": "장기 챌린지"
+    },
+    {
+      "id": 7,
+      "title": "Korean Food That Will CHANGE Your Life (Honest Review)",
+      "creator": "Mark Wiens",
+      "platform": "YouTube",
+      "metrics": "👁 9.6M · ❤️ 310K",
+      "date": "2026-05-18",
+      "url": "https://www.youtube.com/@MarkWiens",
+      "food_topic": "한식 전반",
+      "content_type": "정직한 리뷰"
+    }
+  ],
+  "realtime_report": {
+    "title": "K-푸드 SNS 실시간 인사이트 리포트",
+    "subtitle": "TikTok · Instagram · Reddit · Twitter 실데이터 기반 (Xpoz MCP)",
+    "date": "2026-05-22",
+
+    "viral_tiktok": [
+      { "rank": 1, "title": "비 올 때 한국인이 꼭 먹는 음식",             "food": "누룽지",     "creator": "@avia4471",         "views": "9.7M", "likes": "237,518", "url": "https://www.tiktok.com/@avia4471",       "note": "문화 스토리텔링 포맷 — 외국인 반응 폭발, 감성 접근법 유효" },
+      { "rank": 2, "title": "한국 스트리트푸드 타코야키 제조",             "food": "길거리음식", "creator": "@foodietime1001",  "views": "9.1M", "likes": "190,324", "url": "https://www.tiktok.com/@foodietime1001", "note": "제조 과정 클로즈업 — ASMR + 비주얼 최적화" },
+      { "rank": 3, "title": "오징어게임 떡볶이 연계 영상",                 "food": "떡볶이",     "creator": "@misojenkitchen",  "views": "7.1M", "likes": "666,365", "url": "https://www.tiktok.com/@misojenkitchen", "note": "K-드라마 IP 연계 — 팬덤 유입 극대화" },
+      { "rank": 4, "title": "어린 시절 쌀과자 추억 영상",                  "food": "쌀과자",     "creator": "@tressuni",        "views": "6.0M", "likes": "416,748", "url": "https://www.tiktok.com/@tressuni",       "note": "향수 감성 + 간식 카테고리 — 댓글 참여도 최상" },
+      { "rank": 5, "title": "$3.40 떡볶이 in Korea",                        "food": "떡볶이",     "creator": "@hughabroad",      "views": "5.2M", "likes": "361,979", "url": "https://www.tiktok.com/@hughabroad",    "note": "가격 자막 + 현지 투어 포맷 — 가성비 콘텐츠 강세" },
+      { "rank": 6, "title": "버터 떡 레시피",                               "food": "떡",         "creator": "@mohaesu",         "views": "2.5M", "likes": "218,543", "url": "https://www.tiktok.com/@mohaesu",       "note": "퓨전 레시피 포맷 — 서양 재료 접목 콘텐츠 반응 좋음" }
+    ],
+
+    "hot_foods": [
+      { "food": "한국 BBQ",  "food_en": "Korean BBQ",       "platforms": ["TikTok", "Instagram"], "highlight": "런던 할랄 KBBQ 208만뷰 (@_michellejw)", "highlight_url": "https://www.tiktok.com/@_michellejw",  "insight": "AYCE 무한리필 경험 포맷이 글로벌 공통 인기 — 할랄 버전 수요 급증" },
+      { "food": "떡볶이",    "food_en": "Tteokbokki",        "platforms": ["TikTok", "Instagram"], "highlight": "치즈·까르보나라 변형 레시피 활발", "highlight_url": "https://www.tiktok.com/tag/tteokbokki",          "insight": "변형 레시피 포맷이 오리지널보다 참여도 높음 — 퓨전 시리즈 기획 기회" },
+      { "food": "한국 콘도그","food_en": "Korean Corn Dog",   "platforms": ["TikTok"],              "highlight": "치즈 늘어나는 장면 숏폼 최적화", "highlight_url": "https://www.tiktok.com/tag/koreancorndog",           "insight": "시각적 임팩트 극대화 포맷 — 런던·멜버른·프랑스 오픈 소식 콘텐츠 다수" },
+      { "food": "누룽지",    "food_en": "Nurungji",          "platforms": ["TikTok"],              "highlight": "\"비 올 때 먹는 이유\" 970만뷰", "highlight_url": "https://www.tiktok.com/@avia4471",                    "insight": "문화 해설 스토리텔링 포맷이 단순 소개보다 훨씬 효과적" },
+      { "food": "편의점 음식","food_en": "Korean Convenience", "platforms": ["Instagram"],          "highlight": "\"Day 180 ONLY Korean CVS Food\" 좋아요 27,407건 (@koreannosh)", "highlight_url": "https://www.instagram.com/koreannosh", "insight": "연속 시리즈 포맷 → 구독자 충성도 높음 / 편의점 해킹 콘텐츠 강세" },
+      { "food": "한국 BBQ 퓨전","food_en": "KBBQ Fusion",    "platforms": ["Reddit"],              "highlight": "BBQ 소갈비 + 김치 부리토 — 340점·댓글 35개 (r/PhiladelphiaEats)", "highlight_url": "https://www.reddit.com/r/PhiladelphiaEats", "insight": "현지 퓨전 후기 포맷이 Reddit 참여도 1위 — 해외 현지화 스토리 콘텐츠 기회" }
+    ],
+
+    "geography": [
+      { "country": "영국",       "cities": ["런던"],                     "content_trend": "할랄 KBBQ, 한국 편의점 스타일",   "icon": "🇬🇧" },
+      { "country": "네덜란드",   "cities": ["암스테르담", "로테르담"],   "content_trend": "KBBQ 신규 오픈 콘텐츠 활발",      "icon": "🇳🇱" },
+      { "country": "독일",       "cities": ["베를린"],                   "content_trend": "한국 BBQ 리뷰",                    "icon": "🇩🇪" },
+      { "country": "캐나다",     "cities": ["밴쿠버", "토론토"],         "content_trend": "KBBQ 후기",                        "icon": "🇨🇦" },
+      { "country": "싱가포르",   "cities": ["싱가포르"],                 "content_trend": "한국 핫팟 뷔페 ($18.90, 4인1무료)","icon": "🇸🇬" },
+      { "country": "호주",       "cities": ["멜버른"],                   "content_trend": "할랄 K-푸드 스트리트",             "icon": "🇦🇺" },
+      { "country": "동유럽",     "cities": ["루마니아", "세르비아"],     "content_trend": "불닭 챌린지 콘텐츠 확산",          "icon": "🌍" }
+    ],
+
+    "foreigner_questions": [
+      { "q": "한국에서 간장·고추장 알레르기인데 먹을 게 있을까?", "source": "Reddit", "source_url": "https://www.reddit.com/r/korea", "replies": 14, "opportunity": "식이제한 여행자 K-푸드 가이드" },
+      { "q": "구글맵으로는 진짜 현지 맛집을 못 찾겠어",          "source": "Reddit", "source_url": "https://www.reddit.com/r/SeoulTravel", "replies": 28, "opportunity": "네이버 기반 현지 맛집 큐레이션" },
+      { "q": "냉면이 그렇게 맛있다던데 처음 먹어보니 기대만큼 아니야", "source": "Reddit", "source_url": "https://www.reddit.com/r/KoreanFood", "replies": 41, "opportunity": "\"냉면 처음 이렇게 먹어야 맛있다\" 입문 콘텐츠" },
+      { "q": "광장시장 vs 망원시장 어디가 더 좋아?",              "source": "Reddit", "source_url": "https://www.reddit.com/r/korea", "replies": 22, "opportunity": "시장별 특징 비교 콘텐츠" },
+      { "q": "반찬은 공짜야? 리필 돼?",                          "source": "TikTok 댓글", "source_url": "https://www.tiktok.com/tag/koreanfood", "replies": null, "opportunity": "한국 식당 문화 설명 콘텐츠" },
+      { "q": "한국 BBQ 혼자 가도 돼?",                           "source": "TikTok 댓글", "source_url": "https://www.tiktok.com/tag/koreanbbq", "replies": null, "opportunity": "1인 한국 식사 가이드" }
+    ],
+
+    "market_data": [
+      { "stat": "K-푸드 수출",         "value": "136억 달러", "detail": "2025년 기준, 10년 연속 성장",                  "source": "한국농수산식품유통공사(aT)", "source_url": "https://www.at.or.kr" },
+      { "stat": "글로벌 한국 음식 경험","value": "3명 중 2명", "detail": "전 세계 22개국 조사 결과",                     "source": "한식재단 글로벌 한식 소비자 조사", "source_url": "https://www.hansik.or.kr" },
+      { "stat": "미국 내 K-푸드 관심도","value": "42%",        "detail": "K-뷰티(15%), K-팝(12%) 압도적 우위",           "source": "CJ제일제당 미국 소비자 조사", "source_url": "https://www.cjfoodamerica.com" },
+      { "stat": "Netflix 흑백요리사",   "value": "18개국 TOP 10","detail": "방영 후 K-푸드 검색량 급증",                  "source": "Netflix Global Chart", "source_url": "https://www.netflix.com/tudum/top10" }
+    ],
+
+    "entry_barriers": [
+      { "barrier": "할랄 여부 불확실",          "content_solution": "할랄 K-푸드 레스토랑 가이드 + 무슬림 친화 메뉴 큐레이션" },
+      { "barrier": "언어 장벽 (메뉴 이름 모름)", "content_solution": "쉬운 발음 가이드 + 비주얼 메뉴 설명 카드" },
+      { "barrier": "식이 제한 (간장·고추장 알레르기)", "content_solution": "알레르기 프리 K-푸드 리스트" },
+      { "barrier": "냉면 첫 경험 실망",          "content_solution": "\"처음 먹을 때 이렇게 먹어야 맛있다\" 입문 시리즈" },
+      { "barrier": "혼자 먹기 어려운 구성",       "content_solution": "1인 방문 가능 맛집 + 1인분 메뉴 큐레이션" }
+    ]
+  },
+
+  "regional_sentiment": [
+    { "region": "North America", "positive": 78, "neutral": 17, "negative": 5, "top_food": "Korean Fried Chicken" },
+    { "region": "Southeast Asia","positive": 85, "neutral": 12, "negative": 3, "top_food": "Buldak Ramen" },
+    { "region": "Europe",        "positive": 71, "neutral": 22, "negative": 7, "top_food": "Bibimbap" },
+    { "region": "Japan",         "positive": 82, "neutral": 15, "negative": 3, "top_food": "Tteokbokki" }
+  ]
+}
