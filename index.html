@@ -755,6 +755,58 @@ body {
 .barrier-sol::before { content: '💡 '; }
 @media (max-width: 700px) { .barrier-item { grid-template-columns: 1fr; } }
 
+/* ── 주간 트렌드 리뷰 ── */
+.wr-banner {
+  background: linear-gradient(135deg, var(--purple) 0%, var(--purple-mid) 100%);
+  border-radius: 14px; padding: 18px 22px; color: #fff; margin-bottom: 16px;
+}
+.wr-headline { font-size: 17px; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 6px; }
+.wr-summary { font-size: 13px; line-height: 1.65; opacity: 0.9; }
+.wr-subtitle { font-size: 14px; font-weight: 700; color: var(--text); margin: 18px 0 10px; }
+
+.wr-shift-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.wr-shift-card { background: var(--white); border: 1.5px solid var(--gray-100); border-radius: 12px; padding: 14px 16px; }
+.wr-shift-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.wr-shift-name { font-size: 15px; font-weight: 700; color: var(--text); }
+.wr-shift-rank { font-size: 12px; color: var(--text-light); margin-left: 6px; font-weight: 400; }
+.wr-shift-change { font-size: 15px; font-weight: 800; white-space: nowrap; }
+.wr-shift-change.up   { color: var(--green); }
+.wr-shift-change.down { color: var(--red); }
+.wr-shift-reason { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+.wr-flow-grid { display: flex; flex-direction: column; gap: 8px; }
+.wr-flow-item {
+  background: var(--white); border: 1.5px solid var(--gray-100); border-radius: 10px;
+  padding: 10px 14px; display: flex; gap: 12px; align-items: flex-start;
+}
+.wr-flow-label {
+  flex-shrink: 0; font-size: 12px; font-weight: 700; color: #fff;
+  background: var(--purple); border-radius: 20px; padding: 4px 12px; white-space: nowrap;
+}
+.wr-flow-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+.wr-issue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; }
+.wr-issue-card {
+  background: var(--white); border: 1.5px solid var(--gray-100);
+  border-radius: 12px; padding: 14px 16px; transition: box-shadow 0.16s;
+}
+.wr-issue-card:hover { box-shadow: 0 4px 16px rgba(77,36,117,0.08); }
+.wr-issue-cat { display: inline-block; font-size: 11px; font-weight: 700; color: var(--purple-mid); background: var(--purple-pale); border-radius: 20px; padding: 2px 9px; margin-bottom: 6px; }
+.wr-issue-title { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.4; margin-bottom: 4px; }
+.wr-issue-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px; }
+.wr-issue-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 12px; color: var(--text-light); }
+.wr-issue-metric { font-weight: 600; color: var(--text-muted); }
+.wr-issue-meta a { color: var(--purple-mid); font-weight: 700; text-decoration: none; white-space: nowrap; }
+.wr-issue-meta a:hover { text-decoration: underline; }
+
+.wr-continuing {
+  background: var(--purple-bg); border-left: 3px solid var(--purple);
+  border-radius: 10px; padding: 12px 16px; font-size: 13px; color: var(--text); line-height: 1.6;
+}
+.wr-continuing-title { font-weight: 700; margin-bottom: 4px; }
+.wr-continuing a { color: var(--purple-mid); font-weight: 700; text-decoration: none; }
+.wr-continuing a:hover { text-decoration: underline; }
+
 /* ── 레퍼런스 테이블 ── */
 .ref-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .ref-table th {
@@ -1540,6 +1592,32 @@ body {
             </div>
           </div>
 
+          <!-- 주간 트렌드 리뷰 -->
+          <div id="weekly-review-section" style="display:none;">
+            <div class="sec-header">
+              <div class="sec-title">📈 주간 트렌드 리뷰</div>
+              <div class="sec-link" id="wr-compared">—</div>
+            </div>
+            <div class="wr-banner">
+              <div class="wr-headline" id="wr-headline">—</div>
+              <div class="wr-summary" id="wr-summary">—</div>
+            </div>
+
+            <div class="wr-subtitle">🔼🔽 순위 변동</div>
+            <div class="wr-shift-grid" id="wr-shifts"></div>
+
+            <div class="wr-subtitle">🌊 이번 주 콘텐츠 흐름</div>
+            <div class="wr-flow-grid" id="wr-flows"></div>
+
+            <div class="wr-subtitle">🆕 이번 주 새로 떠오른 이슈</div>
+            <div class="wr-issue-grid" id="wr-issues"></div>
+
+            <div id="wr-continuing-wrap" style="display:none;">
+              <div class="wr-subtitle">🔁 계속되는 화제</div>
+              <div class="wr-continuing" id="wr-continuing"></div>
+            </div>
+          </div>
+
           <!-- 플랫폼 카드 -->
           <div>
             <div class="sec-header">
@@ -2268,6 +2346,51 @@ async function renderInsightsData(d) {
       <div class="rank-change ${cls}">${lbl}</div>
     </div>`;
   }).join('');
+
+  const wr = d.weekly_review;
+  if (wr) {
+    document.getElementById('weekly-review-section').style.display = '';
+    document.getElementById('wr-compared').textContent = `${wr.compared_label} 대비`;
+    document.getElementById('wr-headline').textContent = wr.headline;
+    document.getElementById('wr-summary').textContent = wr.summary;
+
+    const shifts = [
+      ...(wr.rising || []).map(s => ({ ...s, dir: 'up' })),
+      ...(wr.falling || []).map(s => ({ ...s, dir: 'down' }))
+    ];
+    document.getElementById('wr-shifts').innerHTML = shifts.map(s => `
+      <div class="wr-shift-card">
+        <div class="wr-shift-head">
+          <div><span class="wr-shift-name">${s.name} (${s.name_ko})</span><span class="wr-shift-rank">${s.prev_rank}위 → ${s.rank}위</span></div>
+          <div class="wr-shift-change ${s.dir}">${s.dir === 'up' ? '▲' : '▼'} ${s.change}</div>
+        </div>
+        <div class="wr-shift-reason">${s.reason}</div>
+      </div>`).join('');
+
+    document.getElementById('wr-flows').innerHTML = (wr.flows || []).map(fl => `
+      <div class="wr-flow-item">
+        <span class="wr-flow-label">${fl.label}</span>
+        <span class="wr-flow-desc">${fl.description}</span>
+      </div>`).join('');
+
+    document.getElementById('wr-issues').innerHTML = (wr.new_issues || []).map(it => `
+      <div class="wr-issue-card">
+        <span class="wr-issue-cat">${it.category}</span>
+        <div class="wr-issue-title">${it.title}</div>
+        <div class="wr-issue-desc">${it.description}</div>
+        <div class="wr-issue-meta">
+          <span class="wr-issue-metric">${it.platform} · ${it.metric}</span>
+          <a href="${it.url}" target="_blank">${it.source} ↗</a>
+        </div>
+      </div>`).join('');
+
+    if (wr.continuing_buzz) {
+      document.getElementById('wr-continuing-wrap').style.display = '';
+      document.getElementById('wr-continuing').innerHTML = `
+        <div class="wr-continuing-title">${wr.continuing_buzz.title}</div>
+        <div>${wr.continuing_buzz.description} <a href="${wr.continuing_buzz.url}" target="_blank">바로가기 ↗</a></div>`;
+    }
+  }
 
   const pl = d.platforms;
   document.getElementById('platform-tiktok').innerHTML    = renderPlatformCard(pl.tiktok,    'tiktok');
