@@ -1,0 +1,2 @@
+{"hookEvent":"Stop","ccVersion":"2.1.169","sessionId":"f7b19d03-b9eb-4dfc-b3e2-616f4675727d","timestamp":"2026-06-15T11:23:57.317Z","context":{"agent":"main","skill":null}}
+{"hookEvent":"SessionEnd","ccVersion":"2.1.169","sessionId":"f7b19d03-b9eb-4dfc-b3e2-616f4675727d","timestamp":"2026-06-15T11:23:57.414Z","context":{"reason":"other"}}
